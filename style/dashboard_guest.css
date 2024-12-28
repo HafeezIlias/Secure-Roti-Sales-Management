@@ -38,7 +38,7 @@
         /* Product Cards */
         .product-card {
             border: none;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 8px rgba(0,0,0,0.1);
             border-radius: 8px;
             overflow: hidden;
             text-align: center;
@@ -64,6 +64,7 @@
         }
         .product-card button {
             margin-top: 10px;
+            margin-bottom: 10px;
         }
 
         /* Footer */
