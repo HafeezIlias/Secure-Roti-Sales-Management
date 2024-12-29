@@ -1,14 +1,18 @@
-// cart_scripts.js
-
 /**
  * Add a product to the cart via API
  * @param {number} productId - ID of the product to add to the cart
  */
 async function addToCart(productId) {
     try {
+        if (typeof productId !== 'number' || productId <= 0) {
+            console.error('Invalid productId:', productId);
+            alert('Invalid product selection.');
+            return;
+        }
+
         console.log('Adding to cart, Product ID:', productId);
 
-        const response = await fetch('http://127.0.0.1/SECURE ROTI SALES MANAGEMENT/api/add_to_cart.php', {
+        const response = await fetch('http://127.0.0.1/SECURE%20ROTI%20SALES%20MANAGEMENT/api/add_to_cart.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -22,7 +26,7 @@ async function addToCart(productId) {
         const result = await response.json();
         console.log('Response:', result);
 
-        if (response.ok) {
+        if (response.ok && result.success) {
             alert(result.success || 'Product added to cart successfully!');
         } else {
             console.error('Add to cart failed:', result.error || 'Unknown error');
@@ -49,12 +53,11 @@ async function fetchCartItems() {
     const cartItemsContainer = document.getElementById('cart-items');
     const totalPriceElement = document.getElementById('total-price');
     let cartItems = [];
-    let total = 0;
 
     try {
         console.log('Fetching cart items...');
-        const response = await fetch('http://127.0.0.1/SECURE ROTI SALES MANAGEMENT/api/view_cart.php');
-        
+        const response = await fetch('http://127.0.0.1/SECURE%20ROTI%20SALES%20MANAGEMENT/api/view_cart.php');
+
         if (!response.ok) {
             throw new Error('Failed to fetch cart items');
         }
@@ -62,94 +65,128 @@ async function fetchCartItems() {
         cartItems = await response.json();
         console.log('Cart Items:', cartItems);
 
-        renderCartItems(cartItems);
-        calculateTotal(cartItems, totalPriceElement);
+        if (!Array.isArray(cartItems)) {
+            throw new Error('Invalid cart data format');
+        }
 
+        renderCartItems(cartItems);
+        calculateTotal(cartItems, totalPriceElement); // Calculate total price after rendering
     } catch (error) {
         console.error('Error fetching cart items:', error);
-        cartItemsContainer.innerHTML = '<p class="text-center text-danger">Failed to load cart items.</p>';
+        cartItemsContainer.innerText = 'Failed to load cart items. Please try again later.';
+        totalPriceElement.innerText = 'RM0.00';
     }
 }
 
+
 /**
- * Render Cart Items in the DOM
+ * Render Cart Items in the DOM with innerText
  * @param {Array} cartItems - Array of cart items
  */
-
 function renderCartItems(cartItems) {
     const cartItemsContainer = document.getElementById('cart-items');
     cartItemsContainer.innerHTML = '';
 
     if (cartItems.length === 0) {
-        cartItemsContainer.innerHTML = '<p class="text-center">Your cart is empty.</p>';
+        cartItemsContainer.innerText = 'Your cart is empty.';
         return;
     }
 
     cartItems.forEach(item => {
-        cartItemsContainer.innerHTML += `
-            <div class="cart-item d-flex align-items-center mb-3 p-2 border rounded" style="gap: 15px;">
-                <!-- Product Image -->
-                <div style="flex: 0 0 80px;">
-                    <img src="${item.image_path || '/assets/default-image.jpg'}" 
-                         alt="${item.product_name}" 
-                         style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;">
-                </div>
+        if (!item.cart_id || !item.product_name || !item.price || !item.quantity) {
+            console.warn('Invalid cart item detected:', item);
+            return;
+        }
 
-                <!-- Product Details -->
-                <div style="flex: 1;">
-                    <h5 class="mb-1">${item.product_name}</h5>
-                    <p class="mb-1">RM${parseFloat(item.price).toFixed(2)}</p>
-                </div>
+        const cartItemDiv = document.createElement('div');
+        cartItemDiv.className = 'cart-item d-flex align-items-center mb-3 p-2 border rounded';
+        cartItemDiv.style.gap = '15px';
 
-                <!-- Quantity Controls -->
-                <div style="display: flex; align-items: center; gap: 5px;">
-                    <button onclick="updateQuantity(${item.cart_id}, ${item.quantity - 1})" class="btn btn-sm btn-outline-danger">-</button>
-                    <span id="quantity-${item.cart_id}" class="fw-bold">${item.quantity}</span>
-                    <button onclick="updateQuantity(${item.cart_id}, ${item.quantity + 1})" class="btn btn-sm btn-outline-success">+</button>
-                </div>
+        // Product Image
+        const imgDiv = document.createElement('div');
+        imgDiv.style.flex = '0 0 80px';
+        const img = document.createElement('img');
+        img.src = item.image_path || '/assets/default-image.jpg';
+        img.alt = item.product_name;
+        img.style.cssText = 'width: 80px; height: 80px; object-fit: cover; border-radius: 8px;';
+        imgDiv.appendChild(img);
 
-                <!-- Total Price -->
-                <div style="text-align: right;">
-                    <p class="mb-0" id="total-${item.cart_id}">RM${parseFloat(item.total).toFixed(2)}</p>
-                </div>
-            </div>
-        `;
+        // Product Details
+        const detailsDiv = document.createElement('div');
+        detailsDiv.style.flex = '1';
+        const productName = document.createElement('h5');
+        productName.innerText = item.product_name;
+        const productPrice = document.createElement('p');
+        productPrice.innerText = `RM${parseFloat(item.price).toFixed(2)}`;
+        detailsDiv.appendChild(productName);
+        detailsDiv.appendChild(productPrice);
+
+        // Quantity Controls
+        const quantityDiv = document.createElement('div');
+        quantityDiv.style.display = 'flex';
+        quantityDiv.style.alignItems = 'center';
+        quantityDiv.style.gap = '5px';
+
+        const btnMinus = document.createElement('button');
+        btnMinus.className = 'btn btn-sm btn-outline-danger';
+        btnMinus.innerText = '-';
+        btnMinus.onclick = () => updateQuantity(item.cart_id, item.quantity - 1);
+
+        const quantitySpan = document.createElement('span');
+        quantitySpan.id = `quantity-${item.cart_id}`;
+        quantitySpan.className = 'fw-bold';
+        quantitySpan.innerText = item.quantity;
+
+        const btnPlus = document.createElement('button');
+        btnPlus.className = 'btn btn-sm btn-outline-success';
+        btnPlus.innerText = '+';
+        btnPlus.onclick = () => updateQuantity(item.cart_id, item.quantity + 1);
+
+        quantityDiv.appendChild(btnMinus);
+        quantityDiv.appendChild(quantitySpan);
+        quantityDiv.appendChild(btnPlus);
+
+        // Total Price
+        const totalDiv = document.createElement('div');
+        totalDiv.style.textAlign = 'right';
+        const totalText = document.createElement('p');
+        totalText.id = `total-${item.cart_id}`;
+        totalText.innerText = `RM${parseFloat(item.total).toFixed(2)}`;
+        totalDiv.appendChild(totalText);
+
+        // Append All
+        cartItemDiv.appendChild(imgDiv);
+        cartItemDiv.appendChild(detailsDiv);
+        cartItemDiv.appendChild(quantityDiv);
+        cartItemDiv.appendChild(totalDiv);
+
+        cartItemsContainer.appendChild(cartItemDiv);
     });
 }
 
 /**
- * Update Quantity Dynamically
- * @param {number} cartId - ID of the cart item
- * @param {number} newQuantity - New quantity value
+ * Update Quantity
  */
 async function updateQuantity(cartId, newQuantity) {
-    try {
-        console.log(`Updating cart ID ${cartId} to quantity ${newQuantity}`);
+    if (typeof cartId !== 'number' || typeof newQuantity !== 'number' || newQuantity < 0) {
+        console.warn('Invalid update parameters:', { cartId, newQuantity });
+        return;
+    }
 
-        const response = await fetch('http://127.0.0.1/SECURE ROTI SALES MANAGEMENT/api/update_cart_quantity.php', {
+    try {
+        const response = await fetch('http://127.0.0.1/SECURE%20ROTI%20SALES%20MANAGEMENT/api/update_cart_quantity.php', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                cart_id: cartId,
-                quantity: newQuantity
-            })
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ cart_id: cartId, quantity: newQuantity })
         });
 
-        const result = await response.json();
-        console.log('Response:', result);
-
         if (response.ok) {
-            // Refresh cart data after update
             fetchCartItems();
         } else {
-            console.error('Failed to update cart:', result.error || 'Unknown error');
-            alert('Failed to update cart item. Please try again.');
+            throw new Error('Failed to update quantity');
         }
     } catch (error) {
         console.error('Error updating quantity:', error);
-        alert('An error occurred while updating the cart item.');
     }
 }
 
@@ -159,31 +196,19 @@ async function updateQuantity(cartId, newQuantity) {
  * @param {HTMLElement} totalPriceElement - Element to display total price
  */
 function calculateTotal(cartItems, totalPriceElement) {
-    const total = cartItems.reduce((sum, item) => sum + parseFloat(item.total), 0);
-    totalPriceElement.innerText = total.toFixed(2);
-    console.log('Total Price:', total);
-}
-
-/**
- * Handle Checkout Button Click
- */
-function handleCheckout() {
-    const totalPriceElement = document.getElementById('total-price');
-    const total = parseFloat(totalPriceElement.innerText);
-
-    if (total === 0) {
-        alert('Your cart is empty! Please add items before proceeding to checkout.');
+    if (!Array.isArray(cartItems) || !totalPriceElement) {
+        console.warn('Invalid parameters passed to calculateTotal');
         return;
     }
 
-    alert(`Proceeding to checkout. Total Amount: RM${total.toFixed(2)}`);
-    // Future: Implement Checkout Page Redirection
+    const total = cartItems.reduce((sum, item) => {
+        const itemTotal = parseFloat(item.total);
+        return isNaN(itemTotal) ? sum : sum + itemTotal;
+    }, 0);
+
+    totalPriceElement.innerText = `RM${total.toFixed(2)}`;
+    console.log('Total Price Calculated:', total);
 }
 
-// Initialize Cart Page Logic
-document.addEventListener('DOMContentLoaded', () => {
-    if (document.getElementById('cart-items')) {
-        fetchCartItems();
-        document.getElementById('checkout-btn').addEventListener('click', handleCheckout);
-    }
-});
+
+document.addEventListener('DOMContentLoaded', fetchCartItems);
