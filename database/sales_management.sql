@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 28, 2024 at 10:15 AM
+-- Generation Time: Dec 29, 2024 at 02:18 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.4.2
 
@@ -37,6 +37,14 @@ CREATE TABLE `cart` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `cart`
+--
+
+INSERT INTO `cart` (`cart_id`, `product_id`, `product_name`, `quantity`, `price`, `created_at`) VALUES
+(15, 2, 'French Baguette', 1, 3.99, '2024-12-29 02:29:16'),
+(17, 3, 'Whole Grain Bread', 1, 5.99, '2024-12-29 05:10:28');
+
 -- --------------------------------------------------------
 
 --
@@ -49,6 +57,32 @@ CREATE TABLE `customers` (
   `contact` varchar(15) NOT NULL,
   `address` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `customers`
+--
+
+INSERT INTO `customers` (`id`, `name`, `contact`, `address`) VALUES
+(1, 'John Doe', '0123456789', '123 Main St, City A'),
+(2, 'Jane Smith', '0129876543', '456 Elm St, City B'),
+(3, 'Alice Johnson', '0135678901', '789 Oak St, City C'),
+(4, 'Bob Brown', '0145678902', '101 Pine St, City D'),
+(5, 'Emily Davis', '0156789012', '202 Maple St, City E'),
+(6, 'Chris Wilson', '0167890123', '303 Cedar St, City F'),
+(7, 'Olivia Martinez', '0178901234', '404 Birch St, City G'),
+(8, 'Daniel Lewis', '0189012345', '505 Walnut St, City H'),
+(9, 'Sophia Lee', '0190123456', '606 Ash St, City I'),
+(10, 'Liam Thomas', '0201234567', '707 Spruce St, City J'),
+(11, 'Mia Jackson', '0212345678', '808 Willow St, City K'),
+(12, 'Ethan White', '0223456789', '909 Chestnut St, City L'),
+(13, 'Ava Harris', '0234567890', '111 Cypress St, City M'),
+(14, 'James Walker', '0245678901', '222 Redwood St, City N'),
+(15, 'Isabella King', '0256789012', '333 Fir St, City O'),
+(16, 'Lucas Scott', '0267890123', '444 Alder St, City P'),
+(17, 'Ella Young', '0278901234', '555 Sycamore St, City Q'),
+(18, 'Mason Green', '0289012345', '666 Magnolia St, City R'),
+(19, 'Amelia Hall', '0290123456', '777 Poplar St, City S'),
+(20, 'Logan Allen', '0301234567', '888 Holly St, City T');
 
 -- --------------------------------------------------------
 
@@ -76,6 +110,15 @@ CREATE TABLE `inventory` (
   `reorder_point` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `inventory`
+--
+
+INSERT INTO `inventory` (`id`, `item_name`, `stock`, `reorder_point`) VALUES
+(1, 'Sourdough Bread', 100, 30),
+(2, 'French Baguette', 150, 50),
+(3, 'Sourdough', 5, 15);
+
 -- --------------------------------------------------------
 
 --
@@ -86,9 +129,40 @@ CREATE TABLE `orders` (
   `id` int(11) NOT NULL,
   `customer_id` int(11) DEFAULT NULL,
   `order_date` datetime DEFAULT current_timestamp(),
-  `status` enum('pending','fulfilled','canceled') DEFAULT 'pending',
+  `status` enum('pending','fulfilled','cancelled') DEFAULT 'pending',
   `total_amount` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`id`, `customer_id`, `order_date`, `status`, `total_amount`) VALUES
+(1, 1, '2024-05-15 12:30:00', 'pending', 250.75),
+(2, 2, '2024-05-14 14:15:00', 'cancelled', 120.50),
+(3, 3, '2024-05-13 09:45:00', 'pending', 90.00),
+(4, 4, '2024-05-12 11:30:00', 'pending', 300.00),
+(5, 5, '2024-05-11 15:00:00', 'pending', 450.25),
+(6, 6, '2024-05-10 13:20:00', 'pending', 75.50),
+(7, 7, '2024-05-09 10:00:00', 'pending', 200.00),
+(8, 8, '2024-05-08 16:45:00', 'cancelled', 350.75),
+(9, 9, '2024-05-07 08:30:00', 'pending', 55.00),
+(10, 10, '2024-05-06 12:00:00', 'cancelled', 280.50),
+(11, 11, '2024-05-05 14:30:00', 'fulfilled', 500.00),
+(12, 12, '2024-05-04 09:15:00', 'pending', 65.25),
+(13, 13, '2024-05-03 11:45:00', 'pending', 340.00),
+(14, 14, '2024-05-02 13:10:00', 'fulfilled', 150.75),
+(15, 15, '2024-05-01 15:50:00', 'pending', 80.00),
+(16, 16, '2024-04-30 10:20:00', 'pending', 420.50),
+(17, 17, '2024-04-29 14:40:00', 'fulfilled', 390.75),
+(18, 18, '2024-04-28 08:50:00', 'pending', 70.00),
+(19, 19, '2024-04-27 12:25:00', 'pending', 210.00),
+(20, 20, '2024-04-26 16:00:00', 'fulfilled', 460.50),
+(21, 1, '2024-04-25 11:30:00', 'pending', 300.25),
+(22, 2, '2024-04-24 13:15:00', 'fulfilled', 110.50),
+(23, 3, '2024-04-23 15:45:00', 'pending', 90.75),
+(24, 4, '2024-04-22 10:10:00', 'pending', 330.00),
+(25, 5, '2024-04-21 12:40:00', 'fulfilled', 400.25);
 
 -- --------------------------------------------------------
 
@@ -250,13 +324,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `feedback`
@@ -268,13 +342,13 @@ ALTER TABLE `feedback`
 -- AUTO_INCREMENT for table `inventory`
 --
 ALTER TABLE `inventory`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `order_items`
