@@ -1,13 +1,23 @@
 async function fetchOrders() {
     try {
+        // Fetch orders from the API
         const response = await fetch('http://127.0.0.1/SECURE%20ROTI%20SALES%20MANAGEMENT/api/fetch_order.php');
         const orders = await response.json();
 
+        // Initialize order counts
+        let orderCounts = {
+            pending: 0,
+            fulfilled: 0,
+            cancelled: 0
+        };
+
+        // Process orders by status
         ['pending', 'fulfilled', 'cancelled'].forEach(status => {
             const list = document.getElementById(`${status}-orders`);
             list.innerText = ''; // Clear previous content
 
             const filteredOrders = orders.filter(order => order.status === status);
+            orderCounts[status] = filteredOrders.length; // Update counts
 
             if (filteredOrders.length === 0) {
                 const noDataMessage = document.createElement('p');
@@ -18,6 +28,7 @@ async function fetchOrders() {
                 return;
             }
 
+            // Render order cards
             filteredOrders.forEach(order => {
                 // Create order card
                 const orderCard = document.createElement('div');
@@ -67,6 +78,10 @@ async function fetchOrders() {
                 list.appendChild(orderCard);
             });
         });
+
+        // Update order counts on the UI
+        updateOrderCounts(orderCounts);
+
     } catch (error) {
         console.error('Failed to fetch orders:', error.message);
 
@@ -77,6 +92,18 @@ async function fetchOrders() {
     }
 }
 
+// Update Order Counts
+function updateOrderCounts(counts) {
+    try {
+        document.getElementById('pending-count').innerText = counts.pending || 0;
+        document.getElementById('fulfilled-count').innerText = counts.fulfilled || 0;
+        document.getElementById('cancelled-count').innerText = counts.cancelled || 0;
+    } catch (error) {
+        console.error('Failed to update order counts:', error.message);
+    }
+}
+
+// Update Order Status
 async function updateOrderStatus(id, status) {
     try {
         const response = await fetch(`http://127.0.0.1/SECURE%20ROTI%20SALES%20MANAGEMENT/api/update_order_status.php?id=${id}&status=${status}`, {
@@ -92,7 +119,7 @@ async function updateOrderStatus(id, status) {
 
         const result = await response.json();
         console.log(result.message || 'Order status updated successfully.');
-        fetchOrders(); // Refresh the orders list
+        fetchOrders(); // Refresh the orders list and counts
     } catch (error) {
         console.error('Failed to update order status:', error.message);
     }

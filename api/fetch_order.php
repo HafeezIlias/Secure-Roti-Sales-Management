@@ -50,6 +50,17 @@ try {
         ];
     }
 
+     // Fetch counts
+     $counts = [];
+     $statuses = ['pending', 'fulfilled', 'cancelled'];
+     foreach ($statuses as $status) {
+         $stmt = $conn->prepare("SELECT COUNT(*) AS count FROM orders WHERE status = ?");
+         $stmt->bind_param('s', $status);
+         $stmt->execute();
+         $result = $stmt->get_result();
+         $counts[$status] = $result->fetch_assoc()['count'];
+     }
+
     echo json_encode($orders);
 } catch (Exception $e) {
     http_response_code(500);
