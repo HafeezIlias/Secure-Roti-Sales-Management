@@ -67,6 +67,57 @@
             margin-bottom: 10px;
         }
 
+        /* Floating Cart Button Styles */
+        .floating-cart-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #ff9800;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 999;
+        }
+
+        .floating-cart-btn:hover {
+            background-color: #e68900;
+        }
+
+        .floating-cart-btn i {
+            pointer-events: none;
+        }
+
+        /* Cart Page Styles */
+        .cart-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .cart-item button {
+            width: 30px;
+            height: 30px;
+            text-align: center;
+            padding: 0;
+        }
+        .total-price {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
         /* Footer */
         .footer {
             margin-top: 30px;

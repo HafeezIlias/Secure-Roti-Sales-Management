@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <h5>${product.name}</h5>
                         <p>${product.description}</p>
                         <div class="price">RM${parseFloat(product.price).toFixed(2)}</div>
-                        <button class="btn btn-warning btn-sm">Add to Cart</button>
+                        <button class="btn btn-warning btn-sm" onclick="addToCart(${product.product_id})">Add to Cart</button>
                     </div>
                 </div>
             `;
