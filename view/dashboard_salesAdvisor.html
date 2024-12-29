@@ -12,10 +12,10 @@
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="brand">Sales Management Dashboard</div>
-        <a href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        <a href="dashboard_salesAdvisor.html" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
         <a href="#"><i class="fas fa-shopping-cart"></i> Orders</a>
         <a href="#"><i class="fas fa-users"></i> Customers</a>
-        <a href="#"><i class="fas fa-box"></i> Inventory</a>
+        <a href="inventory_page.html"><i class="fas fa-box"></i> Inventory</a>
         <a href="#"><i class="fas fa-chart-line"></i> Sales Reports</a>
         <a href="#"><i class="fas fa-cog"></i> Settings</a>
         <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
@@ -52,7 +52,7 @@
                 <div class="stats-card">
                     <div class="icon"><i class="fas fa-box"></i></div>
                     <h5>Low Inventory Items</h5>
-                    <h3>7</h3>
+                    <h3 id="low-inventory-count">Loading...</h3>
                 </div>
             </div>
         </div>
@@ -91,31 +91,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        const ctx = document.getElementById('salesChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                datasets: [{
-                    label: 'Weekly Sales',
-                    data: [500, 700, 800, 600, 900, 1200, 1500],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    },
-                    title: {
-                        display: true,
-                        text: 'Weekly Sales Overview'
-                    }
-                }
-            }
-        });
-    </script>
+    <script src="/scripts/fetch_low_inventory.js"></script>
+    <script src="/scripts/salesChart.js"></script>
 </body>
 </html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Management</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/style/inventory_page.css">   
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="brand">Inventory Management</div>
+        <a href="dashboard_salesAdvisor.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        <a href="#"><i class="fas fa-shopping-cart"></i> Orders</a>
+        <a href="#" class="active"><i class="fas fa-box"></i> Inventory</a>
+        <a href="#"><i class="fas fa-users"></i> Customers</a>
+        <a href="#"><i class="fas fa-chart-line"></i> Sales Reports</a>
+        <a href="#"><i class="fas fa-cog"></i> Settings</a>
+        <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h2>Inventory Overview</h2>
+        <button class="btn btn-primary mb-3" onclick="openModal('add')">
+            <i class="fas fa-plus"></i> Add New Item
+        </button>
+
+        <!-- Inventory Table -->
+        <div class="table-container">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Item Name</th>
+                        <th>Stock</th>
+                        <th>Reorder Point</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="inventory-table">
+                    <!-- Dynamic Data -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal for Create/Update Item -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modal-title">Add New Item</h2>
+            <form id="item-form">
+                <input type="hidden" id="item-id">
+                <label>Item Name:</label>
+                <input type="text" id="item-name" required>
+                <label>Stock:</label>
+                <input type="number" id="stock" required>
+                <label>Reorder Point:</label>
+                <input type="number" id="reorder-point" required>
+                <button type="submit" class="btn btn-success mt-3">Save</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="/scripts/inventory_scripts.js"></script>
+</body>
+</html>
