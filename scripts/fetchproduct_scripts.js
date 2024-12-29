@@ -27,56 +27,72 @@ document.addEventListener('DOMContentLoaded', () => {
  * Render Products in the DOM using innerText
  * @param {Array} products - Array of product objects
  */
+/**
+ * Render Products in the DOM securely using innerText and dynamic elements
+ * @param {Array} products - Array of product objects
+ */
 function renderProducts(products) {
     const productList = document.getElementById('product-list');
     productList.innerHTML = ''; // Clear previous content
 
-    if (products.length === 0) {
+    if (!products || products.length === 0) {
         productList.innerText = 'No products available.';
         return;
     }
 
     products.forEach(product => {
-        // Create the product card
+        // Validate product object
+        if (!product.product_id || !product.name || !product.price || !product.image_path) {
+            console.warn('Invalid product data:', product);
+            return;
+        }
+
+        // Create the product card container
         const productCard = document.createElement('div');
-        productCard.className = 'col-md-4';
+        productCard.className = 'col-md-4 mb-4';
 
-        productCard.innerHTML = `
-            <div class="product-card text-center">
-                <img src="${product.image_path}" 
-                     alt="${product.name}" 
-                     class="img-fluid mb-3"
-                     style="height: 200px; object-fit: cover;">
-            </div>
-        `;
+        const cardInner = document.createElement('div');
+        cardInner.className = 'product-card text-center p-3 border rounded';
 
-        // Add product name
+        // Product Image
+        const productImg = document.createElement('img');
+        productImg.src = product.image_path || '/assets/default-image.jpg';
+        productImg.alt = product.name;
+        productImg.className = 'img-fluid mb-3';
+        productImg.style.cssText = 'height: 200px; object-fit: cover; border-radius: 8px;';
+        cardInner.appendChild(productImg);
+
+        // Product Name
         const productName = document.createElement('h5');
         productName.innerText = product.name;
-        productCard.querySelector('.product-card').appendChild(productName);
+        productName.className = 'fw-bold mb-1';
+        cardInner.appendChild(productName);
 
-        // Add product description
+        // Product Description
         const productDescription = document.createElement('p');
-        productDescription.innerText = product.description;
-        productCard.querySelector('.product-card').appendChild(productDescription);
+        productDescription.innerText = product.description || 'No description available';
+        productDescription.className = 'text-muted mb-1';
+        cardInner.appendChild(productDescription);
 
-        // Add product price
+        // Product Price
         const productPrice = document.createElement('div');
-        productPrice.className = 'price';
         productPrice.innerText = `RM${parseFloat(product.price).toFixed(2)}`;
-        productCard.querySelector('.product-card').appendChild(productPrice);
+        productPrice.className = 'price fw-bold mb-2';
+        cardInner.appendChild(productPrice);
 
-        // Add Add-to-Cart button
+        // Add-to-Cart Button
         const addToCartBtn = document.createElement('button');
-        addToCartBtn.className = 'btn btn-warning btn-sm';
         addToCartBtn.innerText = 'Add to Cart';
+        addToCartBtn.className = 'btn btn-warning btn-sm';
         addToCartBtn.onclick = () => addToCart(product.product_id);
-        productCard.querySelector('.product-card').appendChild(addToCartBtn);
+        cardInner.appendChild(addToCartBtn);
 
-        // Append the product card to the list
+        // Append all to the main product card container
+        productCard.appendChild(cardInner);
         productList.appendChild(productCard);
     });
 }
+
 
 
     fetchProducts();
