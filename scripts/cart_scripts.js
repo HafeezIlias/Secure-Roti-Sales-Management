@@ -1,5 +1,46 @@
+
 /**
- * Add a product to the cart via API
+ * Navigate to the cart page
+ */
+function proceedToCart() {
+    console.log('Proceeding to the cart page');
+    window.location.href = '/view/cart_page.html'; // Redirect to the cart page
+}
+
+/**
+ * Fetch Cart Count from Backend and Update Floating Cart Button
+ */
+async function updateCartCount() {
+    const cartCountElement = document.getElementById('cart-count');
+
+    try {
+        console.log('Fetching cart count...');
+        const response = await fetch('http://127.0.0.1/SECURE%20ROTI%20SALES%20MANAGEMENT/api/cart_count.php');
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch cart count');
+        }
+
+        const result = await response.json();
+        console.log('Cart Count:', result);
+
+        if (typeof result.count === 'number' && result.count >= 0) {
+            cartCountElement.innerText = result.count;
+            cartCountElement.style.display = result.count > 0 ? 'inline-block' : 'none';
+        } else {
+            console.warn('Invalid cart count response:', result);
+            cartCountElement.innerText = '0';
+            cartCountElement.style.display = 'none';
+        }
+    } catch (error) {
+        console.error('Error fetching cart count:', error);
+        cartCountElement.innerText = '0';
+        cartCountElement.style.display = 'none';
+    }
+}
+
+/**
+ * Add a product to the cart via API and update the cart count
  * @param {number} productId - ID of the product to add to the cart
  */
 async function addToCart(productId) {
@@ -28,6 +69,7 @@ async function addToCart(productId) {
 
         if (response.ok && result.success) {
             alert(result.success || 'Product added to cart successfully!');
+            updateCartCount(); // Update cart count dynamically
         } else {
             console.error('Add to cart failed:', result.error || 'Unknown error');
             alert('Failed to add product to cart. Please try again.');
@@ -39,21 +81,23 @@ async function addToCart(productId) {
 }
 
 /**
- * Navigate to the cart page
- */
-function proceedToCart() {
-    console.log('Proceeding to the cart page');
-    window.location.href = '/view/cart_page.html'; // Redirect to the cart page
-}
-
-/**
  * Fetch Cart Items from Backend
  */
 async function fetchCartItems() {
     const cartItemsContainer = document.getElementById('cart-items');
     const totalPriceElement = document.getElementById('total-price');
-    let cartItems = [];
+    
+    // Check if cart-items container exists
+    if (!cartItemsContainer) {
+        console.error('Error: #cart-items element not found in the DOM.');
+        return;
+    }
+    if (!totalPriceElement) {
+        console.error('Error: #total-price element not found in the DOM.');
+        return;
+    }
 
+    let cartItems = [];
     try {
         console.log('Fetching cart items...');
         const response = await fetch('http://127.0.0.1/SECURE%20ROTI%20SALES%20MANAGEMENT/api/view_cart.php');
@@ -70,7 +114,7 @@ async function fetchCartItems() {
         }
 
         renderCartItems(cartItems);
-        calculateTotal(cartItems, totalPriceElement); // Calculate total price after rendering
+        calculateTotal(cartItems, totalPriceElement); // Ensure totals are calculated
     } catch (error) {
         console.error('Error fetching cart items:', error);
         cartItemsContainer.innerText = 'Failed to load cart items. Please try again later.';
@@ -78,14 +122,19 @@ async function fetchCartItems() {
     }
 }
 
-
 /**
- * Render Cart Items in the DOM with innerText
+ * Render Cart Items in the DOM
  * @param {Array} cartItems - Array of cart items
  */
 function renderCartItems(cartItems) {
     const cartItemsContainer = document.getElementById('cart-items');
-    cartItemsContainer.innerHTML = '';
+    
+    if (!cartItemsContainer) {
+        console.error('Error: #cart-items element not found during render.');
+        return;
+    }
+
+    cartItemsContainer.innerHTML = ''; // Clear previous content
 
     if (cartItems.length === 0) {
         cartItemsContainer.innerText = 'Your cart is empty.';
@@ -210,5 +259,25 @@ function calculateTotal(cartItems, totalPriceElement) {
     console.log('Total Price Calculated:', total);
 }
 
+
+// Update cart count on page load
+document.addEventListener('DOMContentLoaded', () => {
+    updateCartCount();
+});
+
+/**
+ * Initialize Cart Logic
+ */
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('cart-items')) {
+        fetchCartItems();
+        const checkoutBtn = document.getElementById('checkout-btn');
+        if (checkoutBtn) {
+            checkoutBtn.addEventListener('click', handleCheckout);
+        }
+    } else {
+        console.error('Error: #cart-items element not found on DOMContentLoaded');
+    }
+});
 
 document.addEventListener('DOMContentLoaded', fetchCartItems);
