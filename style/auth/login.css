@@ -1,0 +1,143 @@
+/* General Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: url('/assets/banner/bread banner.jpeg') no-repeat center center/cover;
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Navbar Styles */
+.navbar {
+    background-color: #8B4513 !important;
+    padding: 10px 0;
+    z-index: 1000;
+}
+
+.navbar-brand {
+    color: #fff !important;
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.navbar .nav-link {
+    color: #fff !important;
+    margin: 0 10px;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.navbar .nav-link:hover {
+    color: #ffd700 !important;
+    /* Gold hover color */
+}
+
+.navbar .nav-link.active {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.navbar-toggler {
+    border: none;
+    outline: none;
+}
+
+.navbar-toggler-icon {
+    background-color: transparent;
+}
+
+
+/* Authentication Container */
+.auth-container {
+    width: 400px;
+    margin: auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    position: relative;
+    z-index: 10;
+}
+
+/* Header */
+.auth-container h2 {
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #8B4513;
+}
+
+/* Input Fields */
+.auth-container input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+/* Buttons */
+.auth-container button {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #8B4513;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.auth-container button:hover {
+    background-color: #e68900;
+}
+
+/* Links */
+.auth-container p {
+    margin-top: 15px;
+    font-size: 0.9rem;
+}
+
+.auth-container a {
+    color: #8B4513;
+    text-decoration: underline;
+}
+
+.auth-container a:hover {
+    color: #e68900;
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 500px) {
+    .auth-container {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .auth-container h2 {
+        font-size: 1.5rem;
+    }
+
+    .auth-container button {
+        font-size: 0.9rem;
+    }
+
+    .navbar .nav-link {
+        font-size: 0.9rem;
+        margin: 5px 0;
+    }
+}
+
+/* Footer */
+.footer {
+    margin-top: 30px;
+    padding: 20px;
+    background: #8B4513;
+    text-align: center;
+    color: #fff;
+}

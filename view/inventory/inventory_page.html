@@ -12,10 +12,10 @@
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="brand">Inventory Management</div>
-        <a href="dashboard_salesAdvisor.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-        <a href="order_page.html"><i class="fas fa-shopping-cart"></i> Orders</a>
-        <a href="inventory_page.html" class="active"><i class="fas fa-box"></i> Inventory</a>
-        <a href="#"><i class="fas fa-users"></i> Customers</a>
+        <a href="/view/salesAdvisor/dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        <a href="/view/salesAdvisor/order_page.html"><i class="fas fa-shopping-cart"></i> Orders</a>
+        <a href="/view/inventory/inventory_page.html" class="active"><i class="fas fa-box"></i> Inventory</a>
+        <a href="/view/salesAdvisor/customer_page.html"><i class="fas fa-users"></i> Customers</a>
         <a href="#"><i class="fas fa-chart-line"></i> Sales Reports</a>
         <a href="#"><i class="fas fa-cog"></i> Settings</a>
         <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
@@ -24,9 +24,14 @@
     <!-- Main Content -->
     <div class="main-content">
         <h2>Inventory Overview</h2>
-        <button class="btn btn-primary mb-3" onclick="openModal('add')">
-            <i class="fas fa-plus"></i> Add New Item
-        </button>
+        <div class="d-flex mb-3 gap-2">
+            <button class="btn btn-primary" onclick="openModal('add')">
+                <i class="fas fa-plus"></i> Add New Item
+            </button>
+            <button class="btn btn-success" onclick="exportInventory()">
+                <i class="fas fa-file-export"></i> Export Inventory
+            </button>
+        </div>
 
         <!-- Inventory Table -->
         <div class="table-container">
@@ -65,6 +70,7 @@
         </div>
     </div>
 
-    <script src="/scripts/inventory_scripts.js"></script>
+    <script src="/scripts/inventory/inventory_scripts.js"></script>
+    <script src="/scripts/inventory/export_inventory.js"></script>
 </body>
 </html>

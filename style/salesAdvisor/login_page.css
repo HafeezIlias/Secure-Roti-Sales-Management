@@ -1,0 +1,148 @@
+:root {
+    --primary-color: #6C5CE7;
+    --secondary-color: #2C3A47;
+    --background-color: #F8F9FD;
+    --text-color: #2C3E50;
+    --card-bg: #FFFFFF;
+    --accent-color: #E84393;
+    --highlight-color: #FDCB6E;
+    --font-family: 'Poppins', sans-serif;
+}
+
+/* General Styles */
+body {
+    font-family: var(--font-family);
+    background-color: var(--background-color);
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 300px;
+    height: 100vh;
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.sidebar .brand {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: var(--highlight-color);
+    text-align: center;
+}
+
+.sidebar a {
+    color: #fff;
+    text-decoration: none;
+    padding: 12px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, transform 0.2s;
+}
+
+.sidebar a i {
+    margin-right: 12px;
+}
+
+.sidebar a:hover {
+    background-color: var(--highlight-color);
+    color: var(--secondary-color);
+    transform: translateY(-3px);
+}
+
+/* Main Content */
+.main-content {
+    margin-left: 300px;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--background-color);
+    padding: 20px;
+}
+.main-content a {
+    font-size: small;
+}
+
+/* Authentication Container */
+.auth-container {
+    width: 400px;
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Form Fields */
+.auth-container input {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Buttons */
+.auth-container button {
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 5px;
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+}
+
+.auth-container button:hover {
+    background-color: #4e3fc7;
+}
+
+/* Error Message */
+#login-error {
+    font-size: 0.9rem;
+}
+
+/* Footer */
+.footer {
+    margin-left: 300px;
+    background: var(--primary-color);
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    margin-top: auto;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+
+    .main-content {
+        margin-left: 0;
+        padding: 10px;
+    }
+
+    .footer {
+        margin-left: 0;
+        margin-top: 20px;
+    }
+
+    .auth-container {
+        width: 90%;
+        padding: 20px;
+    }
+}
