@@ -24,8 +24,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = json_decode(file_get_contents('php://input'), true);
-    $stmt = $conn->prepare("INSERT INTO customers (name, contact, address) VALUES (?, ?, ?)");
-    $stmt->bind_param("sss", $data['name'], $data['contact'], $data['address']);
+    $stmt = $conn->prepare("INSERT INTO customers (name, contact, address, email) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("sss", $data['name'], $data['contact'], $data['address'], $data['email']);
     $stmt->execute();
     echo json_encode(['message' => 'Customer added']);
 }
