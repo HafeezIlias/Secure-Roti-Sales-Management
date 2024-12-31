@@ -52,7 +52,6 @@
     color: var(--secondary-color);
     transform: translateY(-3px);
 }
-
 .sidebar a.active {
     background-color: var(--highlight-color);
     color: var(--secondary-color);

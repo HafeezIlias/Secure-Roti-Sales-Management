@@ -17,7 +17,6 @@ body {
     display: flex;
     background-color: var(--background-color);
 }
-
 /* Sidebar */
 .sidebar {
     width: 250px;
@@ -60,7 +59,6 @@ body {
     color: var(--secondary-color);
     transform: translateY(-3px);
 }
-
 .sidebar a.active {
     background-color: var(--highlight-color);
     color: var(--secondary-color);
