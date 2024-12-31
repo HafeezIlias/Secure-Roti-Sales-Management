@@ -115,7 +115,7 @@ function closeModal() {
 }
 
 async function deleteItem(id) {
-    await fetch(`inventory.php?action=delete&id=${id}`);
+    await fetch(`http://127.0.0.1/SECURE%20ROTI%20SALES%20MANAGEMENT/api/inventory.php?action=delete&id=${id}`);
     fetchInventory();
 }
 
