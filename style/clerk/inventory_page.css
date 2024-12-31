@@ -1,0 +1,194 @@
+:root {
+    --primary-color: #0984e3;
+    --secondary-color: #2d3436;
+    --background-color: #F8F9FD;
+    --text-color: #2C3E50;
+    --card-bg: #FFFFFF;
+    --accent-color: #fdcb6e;
+    --highlight-color: #00cec9;
+    --font-family: 'Poppins', sans-serif;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    display: flex;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 20px;
+}
+
+.sidebar .brand {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: var(--highlight-color);
+    text-align: center;
+}
+
+.sidebar a {
+    color: #fff;
+    text-decoration: none;
+    padding: 12px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, transform 0.2s;
+}
+
+.sidebar a i {
+    margin-right: 12px;
+}
+
+.sidebar a:hover {
+    background-color: var(--highlight-color);
+    color: var(--secondary-color);
+    transform: translateY(-3px);
+}
+
+.sidebar a.active {
+    background-color: var(--highlight-color);
+    color: var(--secondary-color);
+}
+
+/* Main Content */
+.main-content {
+    margin-left: 270px;
+    padding: 20px;
+    flex-grow: 1;
+}
+
+.section-card {
+    padding: 25px;
+    border-radius: 12px;
+    background: var(--card-bg);
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.section-card:hover {
+    transform: scale(1.02);
+}
+
+h2 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--secondary-color);
+    margin-bottom: 20px;
+}
+
+.btn {
+    margin-right: 10px;
+}
+
+/* Inventory Stats Cards */
+.stats-card {
+    text-align: center;
+    padding: 20px;
+    border-radius: 12px;
+    background: var(--card-bg);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    transition: box-shadow 0.3s ease-in-out, transform 0.2s;
+}
+
+.stats-card:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    transform: scale(1.05);
+}
+
+.stats-card h5 {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.stats-card h3 {
+    font-size: 1.8rem;
+    color: var(--highlight-color);
+}
+
+.stats-card .icon {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    color: var(--accent-color);
+}
+
+/* Inventory Table */
+.section-card {
+    margin-top: 20px;
+    padding: 25px;
+    background: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.section-card:hover {
+    transform: scale(1.02);
+}
+
+.table thead {
+    font-weight: bold;
+    text-align: center;
+}
+
+.table tbody tr:hover {
+    background-color: var(--highlight-color);
+    color: var(--secondary-color);
+    cursor: pointer;
+}
+/* Ingredient Table Styles */
+.section-card h5 {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: var(--primary-color);
+}
+
+/* Ingredient Table Header */
+.table-success th {
+    background-color: var(--highlight-color);
+}
+
+/* Action Buttons */
+.table .btn {
+    font-size: 0.9rem;
+    margin-right: 5px;
+}
+
+/* Section Header */
+.section-card h5 {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: var(--primary-color);
+}
+
+/* Table Styles */
+.table-warning th {
+    background-color: #fffae6;
+}
+
+.table-danger th {
+    background-color: #ffe6e6;
+}
+
+/* Stat Cards */
+.stats-card {
+    cursor: pointer;
+}
+

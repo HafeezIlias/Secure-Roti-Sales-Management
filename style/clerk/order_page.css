@@ -1,0 +1,194 @@
+:root {
+    --primary-color: #0984e3;
+    --secondary-color: #2d3436;
+    --background-color: #F8F9FD;
+    --text-color: #2C3E50;
+    --card-bg: #FFFFFF;
+    --accent-color: #fdcb6e;
+    --highlight-color: #00cec9;
+    --font-family: 'Poppins', sans-serif;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    display: flex;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 20px;
+}
+
+.sidebar .brand {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: var(--highlight-color);
+    text-align: center;
+}
+
+.sidebar a {
+    color: #fff;
+    text-decoration: none;
+    padding: 12px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, transform 0.2s;
+}
+
+.sidebar a i {
+    margin-right: 12px;
+}
+
+.sidebar a:hover {
+    background-color: var(--highlight-color);
+    color: var(--secondary-color);
+    transform: translateY(-3px);
+}
+
+.sidebar a.active {
+    background-color: var(--highlight-color);
+    color: var(--secondary-color);
+}
+
+/* Main Content */
+.main-content {
+    margin-left: 270px;
+    padding: 20px;
+    flex-grow: 1;
+}
+
+.section-card {
+    padding: 25px;
+    border-radius: 12px;
+    background: var(--card-bg);
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.section-card:hover {
+    transform: scale(1.02);
+}
+
+h2 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--secondary-color);
+    margin-bottom: 20px;
+}
+
+.btn {
+    margin-right: 10px;
+}
+/* Orders Page Specific Styles */
+
+h2 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--secondary-color);
+    margin-bottom: 20px;
+}
+
+/* Stats Cards */
+.stats {
+    margin-bottom: 20px;
+}
+
+/* Clickable Stats Card */
+.stats-card {
+    text-align: center;
+    padding: 20px;
+    border-radius: 12px;
+    background: var(--card-bg);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease-in-out, transform 0.2s, cursor 0.2s;
+    cursor: pointer;
+}
+
+.stats-card:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    transform: scale(1.05);
+    color: var(--secondary-color);
+}
+
+.stats-card h5 {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.stats-card h3 {
+    font-size: 1.8rem;
+    color: var(--highlight-color);
+}
+
+.stats-card .icon {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    color: var(--accent-color);
+}
+
+/* Order List Styling */
+.section-card {
+    margin-top: 20px;
+    padding: 20px;
+    background: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.section-card:hover {
+    transform: scale(1.02);
+}
+
+.section-card h5 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: var(--primary-color);
+}
+
+/* Order List Items */
+.order-list {
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 10px;
+    background: var(--background-color);
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.order-list div {
+    background: var(--card-bg);
+    border: 1px solid #e1e1e1;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.order-list div:hover {
+    background: var(--highlight-color);
+    color: var(--secondary-color);
+    cursor: pointer;
+}
+
+.order-list div span {
+    font-weight: 500;
+}

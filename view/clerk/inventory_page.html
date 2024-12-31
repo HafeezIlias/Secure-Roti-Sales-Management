@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Management - Clerk Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/style/clerk/inventory_page.css">
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="brand">Clerk Dashboard</div>
+        <a href="/view/clerk/dashboard_clerk.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        <a href="/view/clerk/order_page.html"><i class="fas fa-shopping-cart"></i> Orders</a>
+        <a href="/view/clerk/inventory_page.html" class="active"><i class="fas fa-box"></i> Inventory</a>
+        <a href="/view/clerk/add_product_page.html"><i class="fas fa-plus"></i> Add Product</a>
+        <a href="#"><i class="fas fa-cog"></i> Settings</a>
+        <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h2>Inventory Management</h2>
+
+        <!-- Inventory Summary Cards -->
+        <div class="stats row mt-4">
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <div class="icon"><i class="fas fa-cubes"></i></div>
+                    <h5>Total Products</h5>
+                    <h3 id="total-products">Loading...</h3>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <div class="icon"><i class="fas fa-carrot"></i></div>
+                    <h5>Total Ingredients</h5>
+                    <h3 id="total-ingredients">Loading...</h3>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <div class="icon"><i class="fas fa-exclamation-triangle"></i></div>
+                    <h5>Low Stock Items</h5>
+                    <h3 id="low-stock-count">Loading...</h3>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <div class="icon"><i class="fas fa-times-circle"></i></div>
+                    <h5>Out of Stock Items</h5>
+                    <h3 id="no-stock-count">Loading...</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Section -->
+        <div class="section-card mt-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5>Product List</h5>
+                <a href="/view/clerk/add_product_page.html" class="btn btn-success btn-sm">
+                    <i class="fas fa-plus"></i> Add Product
+                </a>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>#</th>
+                            <th>Product Name</th>
+                            <th>Description</th>
+                            <th>Price (RM)</th>
+                            <th>Stock</th>
+                            <th>Reorder Point</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="inventory-table-body">
+                        <tr>
+                            <td colspan="7" class="text-center">Loading products...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Add/Edit Product Modal (Integrated Below Table) -->
+        <div class="modal fade" id="addItemModal" tabindex="-1" aria-labelledby="addItemModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addItemModalLabel">Add Product</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="add-item-form">
+                            <div id="dynamic-fields">
+                                <input type="text" id="item-name" placeholder="Product Name" class="form-control mb-2">
+                                <input type="text" id="item-description" placeholder="Description"
+                                    class="form-control mb-2">
+                                <input type="number" id="item-price" placeholder="Price" class="form-control mb-2">
+                                <input type="number" id="item-stock" placeholder="Stock" class="form-control mb-2">
+                                <input type="number" id="item-reorder-point" placeholder="Reorder Point"
+                                    class="form-control mb-2">
+                                <input type="text" id="item-category" placeholder="Category" class="form-control mb-2">
+                            </div>
+                            <button type="button" class="btn btn-success w-100 mt-3" onclick="saveItem()">Save</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Ingredient Section -->
+        <div class="section-card mt-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5>Ingredient List</h5>
+                <button class="btn btn-success btn-sm" onclick="openAddModal('ingredient')">
+                    <i class="fas fa-plus"></i> Add Ingredient
+                </button>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead class="table-success">
+                        <tr>
+                            <th>#</th>
+                            <th>Ingredient Name</th>
+                            <th>Quantity</th>
+                            <th>Unit</th>
+                            <th>Supplier</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ingredient-table-body">
+                        <tr>
+                            <td colspan="6" class="text-center">Loading ingredients...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Low Stock Section -->
+        <div class="section-card mt-4">
+            <h5>Low Stock Items</h5>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead class="table-warning">
+                        <tr>
+                            <th>#</th>
+                            <th>Item Name</th>
+                            <th>Stock</th>
+                            <th>Reorder Point</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="low-stock-table-body">
+                        <tr>
+                            <td colspan="4" class="text-center">Loading low stock items...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Out of Stock Section -->
+        <div class="section-card mt-4">
+            <h5>Out of Stock Items</h5>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead class="table-danger">
+                        <tr>
+                            <th>#</th>
+                            <th>Item Name</th>
+                            <th>Stock</th>
+                            <th>Reorder Point</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="no-stock-table-body">
+                        <tr>
+                            <td colspan="4" class="text-center">Loading out of stock items...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="/scripts/clerk/inventory_clerk.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clerk Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/style/clerk/dashboard_clerk.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="brand">Clerk Dashboard</div>
+        <a href="/view/clerk/dashboard_clerk.html" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        <a href="/view/clerk/order_page.html"><i class="fas fa-shopping-cart"></i> Orders</a>
+        <a href="/view/clerk/inventory_page.html"><i class="fas fa-box"></i> Inventory</a>
+        <a href="/view/clerk/add_product_page.html"><i class="fas fa-plus"></i> Add Product</a>
+        <a href="#"><i class="fas fa-cog"></i> Settings</a>
+        <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h2>Clerk Dashboard Overview</h2>
+
+        <!-- Quick Actions -->
+        <div class="section-card">
+            <h5>Quick Actions</h5>
+            <div class="d-flex flex-wrap gap-3">
+                <button class="btn btn-primary" onclick="createNewOrder()"><i class="fas fa-plus"></i> Create New Order</button>
+                <button class="btn btn-secondary" onclick="loadOrderPage()"><i class="fas fa-list"></i> Load Orders</button>
+                <button class="btn btn-info" onclick="loadInventoryPage()"><i class="fas fa-box"></i> Load Inventory</button>
+            </div>
+        </div>
+
+        <!-- Add New Product -->
+        <div class="section-card">
+            <h5>Add New Product</h5>
+            <form id="add-product-form" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="product-name" class="form-label">Product Name</label>
+                    <input type="text" id="product-name" class="form-control" placeholder="Enter product name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="product-description" class="form-label">Description</label>
+                    <textarea id="product-description" class="form-control" rows="3" placeholder="Enter product description" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="product-price" class="form-label">Price (RM)</label>
+                    <input type="number" id="product-price" class="form-control" placeholder="Enter product price" required>
+                </div>
+                <div class="mb-3">
+                    <label for="product-image" class="form-label">Product Image</label>
+                    <input type="file" id="product-image" class="form-control" accept="image/*" required>
+                </div>
+                <button type="button" class="btn btn-success" onclick="addProduct()">Add Product</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="/scripts/clerk/clerk_function.js"></script>
+</body>
+</html>

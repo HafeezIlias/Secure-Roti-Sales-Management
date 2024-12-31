@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Management - Clerk Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/style/clerk/order_page.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="brand">Clerk Dashboard</div>
+        <a href="/view/clerk/dashboard_clerk.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        <a href="/view/clerk/order_page.html" class="active"><i class="fas fa-shopping-cart"></i> Orders</a>
+        <a href="/view/clerk/inventory_page.html"><i class="fas fa-box"></i> Inventory</a>
+        <a href="/view/clerk/add_product_page.html"><i class="fas fa-plus"></i> Add Product</a>
+        <a href="#"><i class="fas fa-cog"></i> Settings</a>
+        <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h2>Order Management</h2>
+
+        <!-- Stats Overview -->
+        <div class="stats row mt-4">
+            <div class="col-md-4">
+                <div class="stats-card" onclick="scrollToSection('pending-orders')">
+                    <div class="icon"><i class="fas fa-clock"></i></div>
+                    <h5>Pending Orders</h5>
+                    <h3 id="pending-count">Loading...</h3>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stats-card" onclick="scrollToSection('fulfilled-orders')">
+                    <div class="icon"><i class="fas fa-check-circle"></i></div>
+                    <h5>Fulfilled Orders</h5>
+                    <h3 id="fulfilled-count">Loading...</h3>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stats-card" onclick="scrollToSection('cancelled-orders')">
+                    <div class="icon"><i class="fas fa-times-circle"></i></div>
+                    <h5>Cancelled Orders</h5>
+                    <h3 id="cancelled-count">Loading...</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Sections -->
+        <div class="section-card" id="pending-orders-section">
+            <h5>Pending Orders</h5>
+            <div id="pending-orders" class="order-list"></div>
+        </div>
+
+        <div class="section-card" id="fulfilled-orders-section">
+            <h5>Fulfilled Orders</h5>
+            <div id="fulfilled-orders" class="order-list"></div>
+        </div>
+
+        <div class="section-card" id="cancelled-orders-section">
+            <h5>Cancelled Orders</h5>
+            <div id="cancelled-orders" class="order-list"></div>
+        </div>
+    </div>
+
+    <script src="/scripts/fetch_order.js"></script>
+    <script src="/scripts/clerk/order_navigation.js"></script>
+</body>
+</html>
