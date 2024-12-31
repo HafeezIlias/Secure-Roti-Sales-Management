@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/style/auth/register.css">
 </head>
+
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg">
@@ -22,28 +24,169 @@
                     <li class="nav-item"><a class="nav-link" href="/products.html">Products</a></li>
                     <li class="nav-item"><a class="nav-link" href="/about.html">About Us</a></li>
                     <li class="nav-item"><a class="nav-link" href="/contact.html">Contact</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="/view/auth/register_page.html">Register</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/view/auth/register_page.html">Register</a>
+                    </li>
                 </ul>
             </div>
         </div>
     </nav>
 
     <!-- Register Form Section -->
-    <div class="auth-container mt-5">
-        <h2>Register</h2>
-        <input type="text" id="register-username" class="form-control mb-3" placeholder="Username">
-        <input type="email" id="register-email" class="form-control mb-3" placeholder="Email">
-        <input type="password" id="register-password" class="form-control mb-3" placeholder="Password">
-        <button onclick="handleRegister()" class="btn btn-success w-100">Register</button>
-        <p class="mt-3">Already have an account? <a href="/view/auth/login_page.html" class="text-primary">Login</a></p>
+    <div class="container">
+        <div class="auth-container">
+            <h2 class="text-center mb-4">Register</h2>
+
+            <!-- Username -->
+            <div class="input-container mb-3">
+                <div class="position-relative">
+                    <input type="text" id="register-username" class="form-control" placeholder="Username"
+                        onkeyup="checkAvailability('username')">
+                    <i id="username-icon" class="fa-solid form-control-feedback"></i>
+                </div>
+                <small id="username-feedback" class="text-muted d-block mt-1"></small>
+            </div>
+            <!-- Full Name -->
+            <div class="input-container mb-3">
+                <div class="position-relative">
+                    <input type="text" id="register-fullname" class="form-control" placeholder="Full Name">
+                </div>
+            </div>
+
+            <!-- Email -->
+            <div class="input-container mb-3">
+                <div class="position-relative">
+                    <input type="email" id="register-email" class="form-control" placeholder="Email"
+                        onkeyup="checkAvailability('email')">
+                    <i id="email-icon" class="fa-solid form-control-feedback"></i>
+                </div>
+                <small id="email-feedback" class="text-muted d-block mt-1"></small>
+            </div>
+
+            <!-- Password -->
+            <div class="input-container mb-3">
+                <div class="position-relative">
+                    <input type="password" id="register-password" class="form-control" placeholder="Password"
+                        onkeyup="validatePassword()">
+                    <i id="password-icon" class="fa-solid form-control-feedback"></i>
+                </div>
+                <div class="password-requirements">
+                    <ul>
+                        <li id="length-req">At least 8 characters</li>
+                        <li id="uppercase-req">One uppercase letter</li>
+                        <li id="lowercase-req">One lowercase letter</li>
+                        <li id="number-req">One number</li>
+                        <li id="special-req">One special character (@$!%*?&)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Address -->
+            <div class="mb-3">
+                <input type="text" id="register-address" class="form-control" placeholder="Address">
+            </div>
+
+            <!-- Contact -->
+            <div class="input-container mb-3">
+                <div class="position-relative">
+                    <input type="text" id="register-contact" class="form-control" placeholder="Contact Number"
+                        oninput="restrictPhoneInput(event)" onkeyup="validateContact()">
+                    <i id="contact-icon" class="fa-solid form-control-feedback"></i>
+                </div>
+                <small class="text-muted">Format: +60XXXXXXXXXX or 0XXXXXXXXXX</small>
+            </div>
+
+
+            <!-- Postcode -->
+            <div class="mb-3">
+                <input type="text" id="register-postcode" class="form-control" placeholder="Postcode">
+            </div>
+
+            <!-- Country & City -->
+            <div class="mb-3">
+                <select id="register-country" class="form-select">
+                    <option value="Malaysia" selected>Malaysia</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <select id="register-city" class="form-select">
+                    <optgroup label="Johor">
+                        <option value="Johor Bahru">Johor Bahru</option>
+                        <option value="Batu Pahat">Batu Pahat</option>
+                        <option value="Kluang">Kluang</option>
+                        <option value="Muar">Muar</option>
+                    </optgroup>
+                    <optgroup label="Kedah">
+                        <option value="Alor Setar">Alor Setar</option>
+                        <option value="Sungai Petani">Sungai Petani</option>
+                        <option value="Kulim">Kulim</option>
+                    </optgroup>
+                    <optgroup label="Kelantan">
+                        <option value="Kota Bharu">Kota Bharu</option>
+                        <option value="Pasir Mas">Pasir Mas</option>
+                    </optgroup>
+                    <optgroup label="Malacca">
+                        <option value="Malacca City">Malacca City</option>
+                    </optgroup>
+                    <optgroup label="Negeri Sembilan">
+                        <option value="Seremban">Seremban</option>
+                        <option value="Port Dickson">Port Dickson</option>
+                    </optgroup>
+                    <optgroup label="Pahang">
+                        <option value="Kuantan">Kuantan</option>
+                        <option value="Temerloh">Temerloh</option>
+                        <option value="Bentong">Bentong</option>
+                    </optgroup>
+                    <optgroup label="Penang">
+                        <option value="George Town">George Town</option>
+                        <option value="Seberang Perai">Seberang Perai</option>
+                    </optgroup>
+                    <optgroup label="Perak">
+                        <option value="Ipoh">Ipoh</option>
+                        <option value="Taiping">Taiping</option>
+                    </optgroup>
+                    <optgroup label="Perlis">
+                        <option value="Kangar">Kangar</option>
+                    </optgroup>
+                    <optgroup label="Sabah">
+                        <option value="Kota Kinabalu">Kota Kinabalu</option>
+                        <option value="Sandakan">Sandakan</option>
+                    </optgroup>
+                    <optgroup label="Sarawak">
+                        <option value="Kuching">Kuching</option>
+                        <option value="Miri">Miri</option>
+                        <option value="Sibu">Sibu</option>
+                    </optgroup>
+                    <optgroup label="Selangor">
+                        <option value="Shah Alam">Shah Alam</option>
+                        <option value="Petaling Jaya">Petaling Jaya</option>
+                        <option value="Klang">Klang</option>
+                    </optgroup>
+                    <optgroup label="Terengganu">
+                        <option value="Kuala Terengganu">Kuala Terengganu</option>
+                    </optgroup>
+                    <optgroup label="Federal Territories">
+                        <option value="Kuala Lumpur">Kuala Lumpur</option>
+                        <option value="Labuan">Labuan</option>
+                        <option value="Putrajaya">Putrajaya</option>
+                    </optgroup>
+                </select>
+            </div>
+
+            <!-- Submit Button -->
+            <button onclick="handleRegister()" class="btn btn-success w-100">Register</button>
+            <p class="mt-3">Already have an account? <a href="/view/auth/login_page.html" class="text-primary">Login</a>
+            </p>
+        </div>
     </div>
 
     <!-- Footer -->
-    <footer class="footer text-center mt-5">
+    <footer class="footer">
         <p>&copy; 2024 FreshBread. All Rights Reserved.</p>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/scripts/register.js"></script>
+    <script src="/scripts/auth/checking_availability.js"></script>
+    <script src="/scripts/auth/register_guest.js"></script>
 </body>
+
 </html>

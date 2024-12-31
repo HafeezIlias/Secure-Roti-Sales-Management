@@ -48,19 +48,18 @@ body {
 /* Authentication Container */
 .auth-container {
     width: 400px;
-    margin: auto;
+    margin: 50px auto;
     background: #fff;
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
     position: relative;
     z-index: 10;
 }
 
 /* Header */
 .auth-container h2 {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     font-size: 1.8rem;
     font-weight: bold;
     color: #8B4513;
@@ -70,7 +69,6 @@ body {
 .auth-container input {
     width: 100%;
     padding: 10px;
-    margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 1rem;
@@ -108,6 +106,55 @@ body {
     color: #e68900;
 }
 
+/* Input Container */
+.input-container {
+    position: relative;
+}
+
+.input-container .position-relative {
+    display: flex;
+    align-items: center;
+}
+
+/* Form Control Feedback For Phone Number */
+.form-control-feedback {
+    position: absolute;
+    right: 10px;
+    top: 39%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    font-size: 1.2em;
+}
+
+.error-icon {
+    color: red;
+}
+
+.success-icon {
+    color: green;
+}
+
+/* Password Requirements Feedback*/
+.password-requirements {
+    font-size: 0.9rem;
+    margin-top: 5px;
+    text-align: start;
+    color: #9f9f9f;
+}
+.password-requirements ul {
+    list-style: none;
+    padding: 0;
+}
+.password-requirements li::before {
+    content: "•";
+    margin-right: 5px;
+}
+
+.text-muted  {
+    font-size: 10px;
+    color: #9f9f9f;
+
+}
 /* Footer */
 .footer {
     margin-top: 30px;
