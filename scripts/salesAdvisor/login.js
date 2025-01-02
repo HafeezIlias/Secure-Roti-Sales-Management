@@ -12,7 +12,7 @@ async function handleLogin() {
     }
 
     try {
-        const response = await fetch('http://127.0.0.1/SECURE%20ROTI%20SALES%20MANAGEMENT/api/login.php', {
+        const response = await fetch('http://127.0.0.1/SECURE%20ROTI%20SALES%20MANAGEMENT/api/salesAdvisor/login.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -21,9 +21,23 @@ async function handleLogin() {
         });
 
         const result = await response.json();
+        //console.log(result); // Debugging purpose
 
         if (response.ok && result.success) {
-            window.location.href = 'dashboard_salesAdvisor.html';
+            // Redirect based on role
+            switch (result.role) {
+                case 'clerk':
+                    window.location.href = '/view/clerk/dashboard_clerk.html';
+                    break;
+                case 'supervisor':
+                    window.location.href = '/view/salesAdvisor/dashboard_supervisor.html';
+                    break;
+                case 'admin':
+                    window.location.href = '/view/admin/dashboard_admin.html';
+                    break;
+                default:
+                    window.location.href = '/login_page.html';
+            }
         } else {
             errorElement.innerText = result.error || 'Invalid credentials';
             errorElement.classList.remove('d-none');
