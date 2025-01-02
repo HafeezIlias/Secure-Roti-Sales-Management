@@ -121,9 +121,9 @@ document.addEventListener('DOMContentLoaded', () => {
         updateCartView();
     }
 
-/**
- * Checkout Cart and Send Data to Backend
- */
+    /**
+     * Checkout Cart and Send Data to Backend
+     */
     async function checkout() {
         try {
             const response = await fetch('http://127.0.0.1/SECURE ROTI SALES MANAGEMENT/api/clerk/checkout_order.php', {
@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /**
-     * Update the cart display securely without using innerHTML.
+     * Update the cart display 
      */
     function updateCartView() {
         cartBody.innerText = ''; // Clear the cart display securely

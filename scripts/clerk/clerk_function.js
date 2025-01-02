@@ -12,6 +12,11 @@ function loadOrderPage() {
 function loadInventoryPage() {
     window.location.href = '/view/clerk/inventory_page.html';
 }
+// Load Add Product Page
+function loadaddProductPage() {
+    window.location.href = '/view/clerk/add_product_page.html';
+}
+
 
 // Add New Product
 function addProduct() {
