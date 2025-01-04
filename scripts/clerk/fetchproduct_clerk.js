@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const productList = document.getElementById('product-list');
     const cartBody = document.getElementById('cart-body');
+    const checkoutButton = document.getElementById('checkout-button');
 
     let cart = {}; // Object to store cart items
 
@@ -17,15 +18,15 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const products = await response.json();
-            console.log('Fetched products:', products);
 
             if (Array.isArray(products)) {
                 renderProducts(products);
             } else {
-                console.error('Invalid response format:', products);
+                throw new Error('Invalid product format received from the API.');
             }
         } catch (error) {
             console.error('Error during fetchProducts:', error);
+            productList.innerText = 'Failed to load products. Please try again later.';
         }
     }
 
@@ -47,7 +48,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // Create product card container
             const productCard = document.createElement('div');
             productCard.className = 'col-md-4 mb-4';
 
@@ -113,6 +113,11 @@ document.addEventListener('DOMContentLoaded', () => {
      * @param {number} quantity - Product Quantity.
      */
     function addToCart(productId, name, price, quantity) {
+        if (quantity <= 0 || isNaN(quantity)) {
+            alert('Please enter a valid quantity.');
+            return;
+        }
+
         if (!cart[productId]) {
             cart[productId] = { name, price: parseFloat(price), quantity: quantity };
         } else {
@@ -126,25 +131,44 @@ document.addEventListener('DOMContentLoaded', () => {
      */
     async function checkout() {
         try {
+            if (Object.keys(cart).length === 0) {
+                alert('Your cart is empty. Please add items before checking out.');
+                return;
+            }
+    
+            // Prepare payload
+            const checkoutPayload = {};
+            for (const [id, item] of Object.entries(cart)) {
+                checkoutPayload[id] = {
+                    price: item.price,
+                    quantity: item.quantity
+                };
+            }
+    
+            console.log('Checkout Payload:', JSON.stringify(checkoutPayload));
+    
             const response = await fetch('http://127.0.0.1/SECURE ROTI SALES MANAGEMENT/api/clerk/checkout_order.php', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(cart)
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(checkoutPayload)
             });
-
+    
             if (!response.ok) {
                 throw new Error(`Failed to checkout: ${response.statusText}`);
             }
-
+    
             const result = await response.json();
             alert(result.message || 'Order placed successfully!');
             cart = {};
             updateCartView();
         } catch (error) {
             console.error('Checkout Error:', error);
-            alert('Failed to complete checkout.');
+            alert('Failed to complete checkout. Please try again later.');
         }
     }
+    
 
     /**
      * Update the cart display 
@@ -153,67 +177,48 @@ document.addEventListener('DOMContentLoaded', () => {
         cartBody.innerText = ''; // Clear the cart display securely
         let totalAmount = 0;
 
+        if (Object.keys(cart).length === 0) {
+            const emptyRow = document.createElement('tr');
+            const emptyCell = document.createElement('td');
+            emptyCell.colSpan = 5;
+            emptyCell.className = 'text-center';
+            emptyCell.innerText = 'Your cart is empty.';
+            emptyRow.appendChild(emptyCell);
+            cartBody.appendChild(emptyRow);
+            return;
+        }
+
         for (let id in cart) {
             const item = cart[id];
-            const price = parseFloat(item.price); // Ensure price is always a number
-            const quantity = parseInt(item.quantity); // Ensure quantity is always an integer
-            const total = price * quantity;
+            const total = item.price * item.quantity;
             totalAmount += total;
 
             const row = document.createElement('tr');
-
-            // Product Name
-            const nameCell = document.createElement('td');
-            nameCell.innerText = item.name;
-            row.appendChild(nameCell);
-
-            // Price
-            const priceCell = document.createElement('td');
-            priceCell.innerText = `RM${price.toFixed(2)}`;
-            row.appendChild(priceCell);
-
-            // Quantity
-            const quantityCell = document.createElement('td');
-            quantityCell.innerText = quantity;
-            row.appendChild(quantityCell);
-
-            // Total
-            const totalCell = document.createElement('td');
-            totalCell.innerText = `RM${total.toFixed(2)}`;
-            row.appendChild(totalCell);
-
-            // Remove Button
-            const actionCell = document.createElement('td');
-            const removeBtn = document.createElement('button');
-            removeBtn.innerText = 'Remove';
-            removeBtn.className = 'btn btn-danger btn-sm';
-            removeBtn.onclick = () => removeFromCart(id);
-            actionCell.appendChild(removeBtn);
-            row.appendChild(actionCell);
-
+            row.innerHTML = `
+                <td>${item.name}</td>
+                <td>RM${item.price.toFixed(2)}</td>
+                <td>${item.quantity}</td>
+                <td>RM${total.toFixed(2)}</td>
+                <td><button class="btn btn-danger btn-sm" onclick="removeFromCart('${id}')">Remove</button></td>
+            `;
             cartBody.appendChild(row);
         }
 
-        // Grand Total Row
-        const totalRow = document.createElement('tr');
-        const totalTextCell = document.createElement('td');
-        totalTextCell.colSpan = 3;
-        totalTextCell.className = 'text-end fw-bold';
-        totalTextCell.innerText = 'Grand Total:';
-        totalRow.appendChild(totalTextCell);
-
-        const totalValueCell = document.createElement('td');
-        totalValueCell.colSpan = 2;
-        totalValueCell.className = 'fw-bold';
-        totalValueCell.innerText = `RM${totalAmount.toFixed(2)}`;
-        totalRow.appendChild(totalValueCell);
-
-        cartBody.appendChild(totalRow);
+        cartBody.innerHTML += `
+            <tr>
+                <td colspan="3" class="text-end fw-bold">Grand Total:</td>
+                <td colspan="2" class="fw-bold">RM${totalAmount.toFixed(2)}</td>
+            </tr>
+        `;
     }
 
     function removeFromCart(productId) {
         delete cart[productId];
         updateCartView();
+    }
+
+    if (checkoutButton) {
+        checkoutButton.addEventListener('click', checkout);
     }
 
     fetchProducts();
