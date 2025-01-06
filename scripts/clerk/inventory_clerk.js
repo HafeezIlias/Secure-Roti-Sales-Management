@@ -3,7 +3,7 @@
  */
 async function fetchInventory() {
     try {
-        const response = await fetch('http://127.0.0.1/SECURE%20ROTI%20SALES%20MANAGEMENT/api/clerk/get_inventory.php');
+        const response = await fetch('http://127.0.0.1/SECUREROTISALESMANAGEMENT/api/clerk/get_inventory.php');
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -122,7 +122,7 @@ async function restockItem(itemId, type) {
     const restockQuantity = prompt(`Enter restock quantity for ${type} (ID: ${itemId}):`, '0');
     if (restockQuantity !== null && parseInt(restockQuantity) > 0) {
         try {
-            const response = await fetch('http://127.0.0.1/SECURE%20ROTI%20SALES%20MANAGEMENT/api/clerk/restock_item.php', {
+            const response = await fetch('http://127.0.0.1/SECUREROTISALESMANAGEMENT/api/clerk/restock_item.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ id: itemId, quantity: parseInt(restockQuantity), type: type })
@@ -250,7 +250,7 @@ async function saveItem() {
     }
 
     try {
-        const response = await fetch('http://127.0.0.1/SECURE%20ROTI%20SALES%20MANAGEMENT/api/clerk/add_item.php', {
+        const response = await fetch('http://127.0.0.1/SECUREROTISALESMANAGEMENT/api/clerk/add_item.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(itemData)

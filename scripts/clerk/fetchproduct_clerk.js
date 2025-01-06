@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function fetchProducts() {
         try {
             console.log('Fetching products...');
-            const response = await fetch('http://127.0.0.1/SECURE ROTI SALES MANAGEMENT/api/guest/fetch_products.php');
+            const response = await fetch('http://127.0.0.1/SECUREROTISALESMANAGEMENT/api/guest/fetch_products.php');
 
             if (!response.ok) {
                 throw new Error(`Failed to fetch products: ${response.statusText}`);
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Product Image
             const productImg = document.createElement('img');
-            productImg.src = product.image_path || '/assets/default-image.jpg';
+            productImg.src = product.image_path || '/assets/default-image.jpg';  //need to put the image
             productImg.alt = product.name;
             productImg.className = 'img-fluid mb-3';
             productImg.style.cssText = 'height: 200px; object-fit: cover; border-radius: 8px;';
@@ -125,10 +125,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         updateCartView();
     }
-
-    /**
-     * Checkout Cart and Send Data to Backend
-     */
     async function checkout() {
         try {
             if (Object.keys(cart).length === 0) {
@@ -136,36 +132,42 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
     
-            // Prepare payload
-            const checkoutPayload = {};
-            for (const [id, item] of Object.entries(cart)) {
-                checkoutPayload[id] = {
-                    price: item.price,
-                    quantity: item.quantity
-                };
-            }
+            const paymentMethod = document.getElementById('payment-method').value;
+            const checkoutPayload = {
+                customer_id: 1, // replace the customer_id with 0 which indicates the clerk
+                items: Object.entries(cart).map(([id, item]) => ({
+                    product_id: parseInt(id, 10),
+                    price: parseFloat(item.price),
+                    quantity: parseInt(item.quantity, 10)
+                })),
+                payment_method: paymentMethod
+            };
     
-            console.log('Checkout Payload:', JSON.stringify(checkoutPayload));
+            console.log('Checkout Payload:', checkoutPayload);
     
-            const response = await fetch('http://127.0.0.1/SECURE ROTI SALES MANAGEMENT/api/clerk/checkout_order.php', {
+            const response = await fetch('http://127.0.0.1/SECUREROTISALESMANAGEMENT/api/clerk/checkout_order.php', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
                 },
                 body: JSON.stringify(checkoutPayload)
             });
     
             if (!response.ok) {
-                throw new Error(`Failed to checkout: ${response.statusText}`);
+                const errorText = await response.text();
+                throw new Error(`Error: ${response.status} - ${errorText}`);
             }
     
             const result = await response.json();
+            console.log(result);
+    
             alert(result.message || 'Order placed successfully!');
             cart = {};
             updateCartView();
         } catch (error) {
             console.error('Checkout Error:', error);
-            alert('Failed to complete checkout. Please try again later.');
+            alert(`Failed to complete checkout: ${error.message}`);
         }
     }
     
@@ -173,44 +175,53 @@ document.addEventListener('DOMContentLoaded', () => {
     /**
      * Update the cart display 
      */
-    function updateCartView() {
-        cartBody.innerText = ''; // Clear the cart display securely
-        let totalAmount = 0;
+function updateCartView() {
+    cartBody.innerText = ''; // Clear the cart display securely
+    let totalAmount = 0;
 
-        if (Object.keys(cart).length === 0) {
-            const emptyRow = document.createElement('tr');
-            const emptyCell = document.createElement('td');
-            emptyCell.colSpan = 5;
-            emptyCell.className = 'text-center';
-            emptyCell.innerText = 'Your cart is empty.';
-            emptyRow.appendChild(emptyCell);
-            cartBody.appendChild(emptyRow);
-            return;
-        }
-
-        for (let id in cart) {
-            const item = cart[id];
-            const total = item.price * item.quantity;
-            totalAmount += total;
-
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${item.name}</td>
-                <td>RM${item.price.toFixed(2)}</td>
-                <td>${item.quantity}</td>
-                <td>RM${total.toFixed(2)}</td>
-                <td><button class="btn btn-danger btn-sm" onclick="removeFromCart('${id}')">Remove</button></td>
-            `;
-            cartBody.appendChild(row);
-        }
-
-        cartBody.innerHTML += `
-            <tr>
-                <td colspan="3" class="text-end fw-bold">Grand Total:</td>
-                <td colspan="2" class="fw-bold">RM${totalAmount.toFixed(2)}</td>
-            </tr>
-        `;
+    if (Object.keys(cart).length === 0) {
+        const emptyRow = document.createElement('tr');
+        const emptyCell = document.createElement('td');
+        emptyCell.colSpan = 5;
+        emptyCell.className = 'text-center';
+        emptyCell.innerText = 'Your cart is empty.';
+        emptyRow.appendChild(emptyCell);
+        cartBody.appendChild(emptyRow);
+        return;
     }
+
+    for (let id in cart) {
+        const item = cart[id];
+        const total = item.price * item.quantity;
+        totalAmount += total;
+
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${item.name}</td>
+            <td>RM${item.price.toFixed(2)}</td>
+            <td>${item.quantity}</td>
+            <td>RM${total.toFixed(2)}</td>
+            <td><button class="btn btn-danger btn-sm remove-btn" data-id="${id}">Remove</button></td>
+        `;
+        cartBody.appendChild(row);
+    }
+
+    cartBody.innerHTML += `
+        <tr>
+            <td colspan="3" class="text-end fw-bold">Grand Total:</td>
+            <td colspan="2" class="fw-bold">RM${totalAmount.toFixed(2)}</td>
+        </tr>
+    `;
+
+    // Attach event listeners to dynamically added remove buttons
+    document.querySelectorAll('.remove-btn').forEach(button => {
+        button.addEventListener('click', (event) => {
+            const productId = event.target.dataset.id;
+            removeFromCart(productId);
+        });
+    });
+}
+
 
     function removeFromCart(productId) {
         delete cart[productId];

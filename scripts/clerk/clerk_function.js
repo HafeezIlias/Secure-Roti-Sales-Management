@@ -36,7 +36,7 @@ function addProduct() {
     formData.append('price', price);
     formData.append('image', image);
 
-    fetch('/api/products/add_product.php', {
+    fetch('http://127.0.0.1/SECUREROTISALESMANAGEMENT/api/products/add_product.php', {
         method: 'POST',
         body: formData,
     })

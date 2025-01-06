@@ -22,7 +22,7 @@ async function addProduct() {
     formData.append('image', image);
 
     try {
-        const response = await fetch('http://127.0.0.1/SECURE%20ROTI%20SALES%20MANAGEMENT/api/clerk/add_new_product.php', {
+        const response = await fetch('http://127.0.0.1/SECUREROTISALESMANAGEMENT/api/clerk/add_new_product.php', {
             method: 'POST',
             body: formData,
         });

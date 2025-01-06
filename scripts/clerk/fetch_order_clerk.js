@@ -1,7 +1,7 @@
 async function fetchOrders() {
     try {
         // Fetch orders from the API
-        const response = await fetch('http://127.0.0.1/SECURE%20ROTI%20SALES%20MANAGEMENT/api/clerk/fetch_order.php');
+        const response = await fetch('http://127.0.0.1/SECUREROTISALESMANAGEMENT/api/clerk/fetch_order.php');
         const orders = await response.json();
 
         // Initialize order counts
@@ -106,7 +106,7 @@ function updateOrderCounts(counts) {
 // Update Order Status
 async function updateOrderStatus(id, status) {
     try {
-        const response = await fetch(`http://127.0.0.1/SECURE%20ROTI%20SALES%20MANAGEMENT/api/clerk/update_order_status.php?id=${id}&status=${status}`, {
+        const response = await fetch(`http://127.0.0.1/SECUREROTISALESMANAGEMENT/api/clerk/update_order_status.php?id=${id}&status=${status}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

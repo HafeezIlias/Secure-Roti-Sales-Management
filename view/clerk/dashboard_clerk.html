@@ -20,6 +20,7 @@
         <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </div>
 
+    <!-- Main Content -->
     <div class="main-content">
         <h2>Clerk Dashboard Overview</h2>
     
@@ -55,16 +56,29 @@
                         </tr>
                     </thead>
                     <tbody id="cart-body"></tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3" class="text-end fw-bold">Payment Method:</td>
+                            <td colspan="2">
+                                <select id="payment-method" class="form-select">
+                                    <option value="cash">Cash</option>
+                                    <option value="card">Card</option>
+                                    <option value="online">Online</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="5" class="text-end">
+                                <button id="checkout-button" class="btn btn-success w-100 mt-2">Checkout</button>
+                            </td>
+                        </tr>
+                    </tfoot>
                 </table>
-                <button id="checkout-button" class="btn btn-success w-100 mt-2">Checkout</button>
             </div>
         </div>
     </div>
+
     <script src="/scripts/clerk/fetchproduct_clerk.js"></script>
     <script src="/scripts/clerk/clerk_function.js"></script>
-<<<<<<< HEAD
-
-=======
->>>>>>> 2496495f0b8d7606c1b5a0efa605980084c026cc
 </body>
 </html>
