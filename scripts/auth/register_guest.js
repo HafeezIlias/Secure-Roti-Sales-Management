@@ -20,7 +20,7 @@ async function handleRegister() {
     }
 
     try {
-        const response = await fetch('http://127.0.0.1/Secure%20Roti%20Sales%20Management/api/auth/register.php', {
+        const response = await fetch('http://127.0.0.1/SECUREROTISALESMANAGEMENT/api/auth/register.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, fullname, email, password, contact, address, postcode, country, city }),

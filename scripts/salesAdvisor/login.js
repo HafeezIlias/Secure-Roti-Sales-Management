@@ -12,7 +12,7 @@ async function handleLogin() {
     }
 
     try {
-        const response = await fetch('http://127.0.0.1/SECURE%20ROTI%20SALES%20MANAGEMENT/api/salesAdvisor/login.php', {
+        const response = await fetch('http://127.0.0.1/SECUREROTISALESMANAGEMENT/api/salesAdvisor/login.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

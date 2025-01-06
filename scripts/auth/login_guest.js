@@ -2,7 +2,7 @@ async function handleLogin() {
     const username = document.getElementById('login-username').value;
     const password = document.getElementById('login-password').value;
 
-    const response = await fetch('/api/auth/login.php', {
+    const response = await fetch('http://127.0.0.1/SECUREROTISALESMANAGEMENT/api/auth/login.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),

@@ -15,7 +15,7 @@ async function updateCartCount() {
 
     try {
         console.log('Fetching cart count...');
-        const response = await fetch('http://127.0.0.1/SECURE%20ROTI%20SALES%20MANAGEMENT/api/guest/cart_count.php');
+        const response = await fetch('http://127.0.0.1/SECUREROTISALESMANAGEMENT/api/guest/cart_count.php');
 
         if (!response.ok) {
             throw new Error('Failed to fetch cart count');
@@ -53,7 +53,7 @@ async function addToCart(productId) {
 
         console.log('Adding to cart, Product ID:', productId);
 
-        const response = await fetch('http://127.0.0.1/SECURE%20ROTI%20SALES%20MANAGEMENT/api/guest/add_to_cart.php', {
+        const response = await fetch('http://127.0.0.1/SECUREROTISALESMANAGEMENT/api/guest/add_to_cart.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -100,7 +100,7 @@ async function fetchCartItems() {
     let cartItems = [];
     try {
         console.log('Fetching cart items...');
-        const response = await fetch('http://127.0.0.1/SECURE%20ROTI%20SALES%20MANAGEMENT/api/guest/view_cart.php');
+        const response = await fetch('http://127.0.0.1/SECUREROTISALESMANAGEMENT/api/guest/view_cart.php');
 
         if (!response.ok) {
             throw new Error('Failed to fetch cart items');
@@ -223,7 +223,7 @@ async function updateQuantity(cartId, newQuantity) {
     }
 
     try {
-        const response = await fetch('http://127.0.0.1/SECURE%20ROTI%20SALES%20MANAGEMENT/api/update_cart_quantity.php', {
+        const response = await fetch('http://127.0.0.1/SECUREROTISALESMANAGEMENT/api/update_cart_quantity.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ cart_id: cartId, quantity: newQuantity })

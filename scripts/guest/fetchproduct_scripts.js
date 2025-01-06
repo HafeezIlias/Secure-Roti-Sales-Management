@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function fetchProducts() {
         try {
             console.log('Fetching products...');
-            const response = await fetch('http://127.0.0.1/SECURE ROTI SALES MANAGEMENT/api/guest/fetch_products.php');
+            const response = await fetch('http://127.0.0.1/SECUREROTISALESMANAGEMENT/api/guest/fetch_products.php');
 
             if (!response.ok) {
                 throw new Error(`Failed to fetch products: ${response.statusText}`);

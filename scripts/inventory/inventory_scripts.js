@@ -4,7 +4,7 @@ async function fetchInventory() {
     inventoryTable.innerText = ''; // Clear previous content
 
     try {
-        const response = await fetch('http://127.0.0.1/SECURE ROTI SALES MANAGEMENT/api/inventory/fetch_inventory.php?action=read');
+        const response = await fetch('http://127.0.0.1/SECUREROTISALESMANAGEMENT/api/inventory/fetch_inventory.php?action=read');
         const items = await response.json();
 
         if (!Array.isArray(items) || items.length === 0) {
@@ -115,7 +115,7 @@ function closeModal() {
 }
 
 async function deleteItem(id) {
-    await fetch(`http://127.0.0.1/SECURE%20ROTI%20SALES%20MANAGEMENT/api/inventory.php?action=delete&id=${id}`);
+    await fetch(`http://127.0.0.1/SECUREROTISALESMANAGEMENT/api/inventory.php?action=delete&id=${id}`);
     fetchInventory();
 }
 
@@ -135,7 +135,7 @@ document.getElementById('item-form').addEventListener('submit', async (e) => {
     };
 
     try {
-        await fetch('http://127.0.0.1/SECURE%20ROTI%20SALES%20MANAGEMENT/api/inventory/fetch_inventory.php', {
+        await fetch('http://127.0.0.1/SECUREROTISALESMANAGEMENT/api/inventory/fetch_inventory.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)

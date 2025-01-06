@@ -10,7 +10,7 @@ function getElement(id) {
 // 📝 Fetch Customers from the Server
 async function fetchCustomers() {
     try {
-        const response = await fetch('http://127.0.0.1/SECURE%20ROTI%20SALES%20MANAGEMENT/api/admin/fetch_customer.php');
+        const response = await fetch('http://127.0.0.1/SECUREROTISALESMANAGEMENT/api/admin/fetch_customer.php');
         const customers = await response.json();
 
         const customerList = getElement('customer-list');

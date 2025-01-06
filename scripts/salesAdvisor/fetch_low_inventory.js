@@ -3,7 +3,7 @@ async function fetchLowInventory() {
     lowInventoryElement.innerText = 'Loading...';
 
     try {
-        const response = await fetch('http://127.0.0.1/SECURE%20ROTI%20SALES%20MANAGEMENT/api/salesAdvisor/fetch_low_inventory.php');
+        const response = await fetch('http://127.0.0.1/SECUREROTISALESMANAGEMENT/api/salesAdvisor/fetch_low_inventory.php');
         const data = await response.json();
 
         if (data.error) {
