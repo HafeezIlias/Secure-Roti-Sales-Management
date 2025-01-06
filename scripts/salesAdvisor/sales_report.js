@@ -1,73 +1,100 @@
+let salesChart = null; // Global variable for the Chart instance
+
+// 📝 Fetch Sales Report Data
 async function fetchSalesReport() {
     try {
-        const response = await fetch('http://127.0.0.1/SECURE%20ROTI%20SALES%20MANAGEMENT/api/fetch_sales_report.php');
+        const response = await fetch('http://127.0.0.1/SECUREROTISALESMANAGEMENT/api/salesAdvisor/fetch_sales_report.php');
+        if (!response.ok) throw new Error(`HTTP Error! Status: ${response.status}`);
         const data = await response.json();
 
-        // Update Metrics
-        document.getElementById('total-sales').innerText = `RM${data.total_sales || 0}`;
-        document.getElementById('top-product').innerText = data.top_product || 'N/A';
-        document.getElementById('total-transactions').innerText = data.total_transactions || 0;
-
-        // Update Chart
-        const ctx = document.getElementById('salesReportChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: data.sales_trend.labels,
-                datasets: [{
-                    label: 'Sales Amount',
-                    data: data.sales_trend.values,
-                    borderWidth: 2
-                }]
-            }
-        });
-
-        // Update Table
-        const salesTable = document.getElementById('sales-table');
-        salesTable.innerHTML = '';
-
-        data.sales_transactions.forEach(sale => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${sale.id}</td>
-                <td>${sale.product}</td>
-                <td>${sale.category}</td>
-                <td>RM${sale.amount}</td>
-                <td>${sale.date}</td>
-            `;
-            salesTable.appendChild(row);
-        });
-
-        // Store sales data for CSV export
-        window.salesData = data.sales_transactions;
-
+        updateMetrics(data);
+        updateChart(data.sales_trend);
+        updateSalesTable(data.sales_transactions);
+        storeSalesData(data.sales_transactions);
     } catch (error) {
         console.error('Failed to fetch sales report:', error.message);
+        alert('Failed to load sales report. Please try again later.');
     }
 }
 
-// Export Sales Data to CSV
+// 📝 Update Metrics Display
+function updateMetrics(data) {
+    document.getElementById('total-sales').innerText = `RM${data.total_sales || 0}`;
+    document.getElementById('top-product').innerText = data.top_product || 'N/A';
+    document.getElementById('total-transactions').innerText = data.total_transactions || 0;
+}
+
+// 📊 Update Sales Chart
+function updateChart(salesTrend) {
+    const ctx = document.getElementById('salesReportChart').getContext('2d');
+    if (salesChart) {
+        salesChart.destroy();
+    }
+    salesChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: salesTrend.labels,
+            datasets: [{
+                label: 'Sales Amount',
+                data: salesTrend.values,
+                borderWidth: 2
+            }]
+        }
+    });
+}
+
+// 📋 Update Sales Table
+function updateSalesTable(salesTransactions) {
+    const salesTable = document.getElementById('sales-table');
+    salesTable.innerHTML = ''; // Clear the table before rendering
+
+    if (salesTransactions.length === 0) {
+        salesTable.innerHTML = `<tr><td colspan="6" class="text-center">No sales data available</td></tr>`;
+        return;
+    }
+
+    salesTransactions.forEach(sale => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${sale.id}</td>
+            <td>${sale.product_name || 'N/A'}</td>
+            <td>${sale.customer_id || 'N/A'}</td>
+            <td>RM${sale.amount}</td>
+            <td>${sale.date}</td>
+            <td>${sale.payment_method || 'N/A'}</td>
+        `;
+        salesTable.appendChild(row);
+    });
+}
+
+
+// 💾 Store Sales Data for CSV Export
+function storeSalesData(salesTransactions) {
+    window.salesData = salesTransactions;
+}
+
+// 📤 Export Sales Data to CSV
 function exportToCSV() {
     if (!window.salesData || window.salesData.length === 0) {
         alert('No sales data available to export.');
         return;
     }
 
-    let csvContent = 'ID,Product,Category,Amount,Date\n';
+    let csvContent = 'ID,Product Name,Customer ID,Amount,Date,Payment Method\n';
 
     window.salesData.forEach(sale => {
         const row = [
             sale.id,
-            `"${sale.product}"`,
-            `"${sale.category}"`,
-            sale.amount,
-            sale.date
+            `"${sale.product_name || 'N/A'}"`,
+            `"${sale.customer_id || 'N/A'}"`,
+            `RM${sale.amount}`,
+            sale.date,
+            sale.payment_method || 'N/A'
         ].join(',');
 
         csvContent += row + '\n';
     });
 
-    // Create a Blob and trigger the download
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
@@ -78,14 +105,30 @@ function exportToCSV() {
     document.body.removeChild(link);
 }
 
-function applySalesFilter() {
+
+// 📆 Apply Filters to Sales Report
+async function applySalesFilter() {
     const startDate = document.getElementById('start-date').value;
     const endDate = document.getElementById('end-date').value;
-    const category = document.getElementById('category').value;
 
-    console.log('Applying filters:', { startDate, endDate, category });
-    fetchSalesReport();
+    const queryParams = new URLSearchParams();
+    if (startDate) queryParams.append('start_date', startDate);
+    if (endDate) queryParams.append('end_date', endDate);
+
+    try {
+        const response = await fetch(`http://127.0.0.1/SECUREROTISALESMANAGEMENT/api/salesAdvisor/fetch_sales_report.php?${queryParams.toString()}`);
+        if (!response.ok) throw new Error(`HTTP Error! Status: ${response.status}`);
+        const data = await response.json();
+
+        updateMetrics(data);
+        updateChart(data.sales_trend);
+        updateSalesTable(data.sales_transactions);
+        storeSalesData(data.sales_transactions);
+    } catch (error) {
+        console.error('Failed to fetch filtered sales report:', error.message);
+        alert('Failed to apply filters. Please try again later.');
+    }
 }
 
-// Initialize on load
+// 🚀 Initialize on Page Load
 fetchSalesReport();
