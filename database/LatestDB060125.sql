@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 06, 2025 at 10:27 AM
+-- Generation Time: Jan 06, 2025 at 03:46 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -29,6 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `cart` (
   `cart_id` int(11) NOT NULL,
+  `customer_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `product_name` varchar(255) NOT NULL,
   `quantity` int(11) DEFAULT 1,
@@ -36,15 +37,6 @@ CREATE TABLE `cart` (
   `total` decimal(10,2) GENERATED ALWAYS AS (`quantity` * `price`) STORED,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `cart`
---
-
-INSERT INTO `cart` (`cart_id`, `product_id`, `product_name`, `quantity`, `price`, `created_at`) VALUES
-(15, 2, 'French Baguette', 1, 3.99, '2024-12-29 02:29:16'),
-(17, 3, 'Whole Grain Bread', 1, 5.99, '2024-12-29 05:10:28'),
-(18, 2, 'French Baguette', 1, 3.99, '2025-01-01 03:58:00');
 
 -- --------------------------------------------------------
 
@@ -71,16 +63,16 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`id`, `username`, `email`, `name`, `contact`, `address`, `postcode`, `country`, `city`, `created_at`, `updated_at`) VALUES
-(22, 'siti456', 'siti456@example.com1', 'Siti Nurhaliza', '+60129876543', '45, Jalan Tun Razak, Kuala Lumpur', '50400', 'Malaysia', 'Kuala Lumpur', '2024-12-31 03:59:08', '2024-12-31 04:32:07'),
-(23, 'ali789', 'ali789@example.com', 'Ali Hassan', '+60111222333', '78, Jalan Bukit Bintang, Kuala Lumpur', '55100', 'Malaysia', 'Kuala Lumpur', '2024-12-31 03:59:08', '2024-12-31 03:59:08'),
-(24, 'farah321', 'farah321@example.com', 'Farah Binti Ahmad', '+60155556677', '50, Jalan Klang Lama, Petaling Jaya', '46000', 'Malaysia', 'Petaling Jaya', '2024-12-31 03:59:08', '2024-12-31 03:59:08'),
-(25, 'muhammad555', 'muhammad555@example.com', 'Muhammad Noor', '+60199887766', '12, Jalan Taman Desa, Shah Alam', '40100', 'Malaysia', 'Shah Alam', '2024-12-31 03:59:08', '2024-12-31 03:59:08'),
-(26, 'azhar777', 'azhar777@example.com', 'Azhar Ibrahim', '+60122334455', '34, Jalan USJ 10, Subang Jaya', '47620', 'Malaysia', 'Subang Jaya', '2024-12-31 03:59:08', '2024-12-31 03:59:08'),
-(27, 'nurul999', 'nurul999@example.com', 'Nurul Ain', '+60123456790', '89, Jalan Gasing, Petaling Jaya', '46050', 'Malaysia', 'Petaling Jaya', '2024-12-31 03:59:08', '2024-12-31 03:59:08'),
-(28, 'hani123', 'hani123@example.com', 'Hani Binti Ismail', '+60135557788', '55, Jalan Sri Hartamas, Kuala Lumpur', '50480', 'Malaysia', 'Kuala Lumpur', '2024-12-31 03:59:08', '2024-12-31 03:59:08'),
-(29, 'zain432', 'zain432@example.com', 'Zain Ahmad', '+60187776655', '76, Jalan Bangsar, Kuala Lumpur', '59100', 'Malaysia', 'Kuala Lumpur', '2024-12-31 03:59:08', '2024-12-31 03:59:08'),
-(30, 'nadia654', 'nadia654@example.com', 'Nadia Aziz', '+60112233445', '29, Jalan Damansara, Kuala Lumpur', '60000', 'Malaysia', 'Kuala Lumpur', '2024-12-31 03:59:08', '2024-12-31 03:59:08'),
-(31, 'siti456s2', 'Hafeez@gmail.com', 'Hafeez', '01010012313', 'Lot 883477', '123445', 'Malaysia', 'Kuala Lumpur', '2024-12-31 04:37:58', '2024-12-31 04:37:58');
+(1, 'siti456', 'siti456@example.com1', 'Siti Nurhaliza', '+60129876543', '45, Jalan Tun Razak, Kuala Lumpur', '50400', 'Malaysia', 'Kuala Lumpur', '2024-12-30 11:59:08', '2024-12-30 12:32:07'),
+(2, 'ali789', 'ali789@example.com', 'Ali Hassan', '+60111222333', '78, Jalan Bukit Bintang, Kuala Lumpur', '55100', 'Malaysia', 'Kuala Lumpur', '2024-12-30 11:59:08', '2024-12-30 11:59:08'),
+(3, 'farah321', 'farah321@example.com', 'Farah Binti Ahmad', '+60155556677', '50, Jalan Klang Lama, Petaling Jaya', '46000', 'Malaysia', 'Petaling Jaya', '2024-12-30 11:59:08', '2024-12-30 11:59:08'),
+(4, 'muhammad555', 'muhammad555@example.com', 'Muhammad Noor', '+60199887766', '12, Jalan Taman Desa, Shah Alam', '40100', 'Malaysia', 'Shah Alam', '2024-12-30 11:59:08', '2024-12-30 11:59:08'),
+(5, 'azhar777', 'azhar777@example.com', 'Azhar Ibrahim', '+60122334455', '34, Jalan USJ 10, Subang Jaya', '47620', 'Malaysia', 'Subang Jaya', '2024-12-30 11:59:08', '2024-12-30 11:59:08'),
+(6, 'nurul999', 'nurul999@example.com', 'Nurul Ain', '+60123456790', '89, Jalan Gasing, Petaling Jaya', '46050', 'Malaysia', 'Petaling Jaya', '2024-12-30 11:59:08', '2024-12-30 11:59:08'),
+(7, 'hani123', 'hani123@example.com', 'Hani Binti Ismail', '+60135557788', '55, Jalan Sri Hartamas, Kuala Lumpur', '50480', 'Malaysia', 'Kuala Lumpur', '2024-12-30 11:59:08', '2024-12-30 11:59:08'),
+(8, 'zain432', 'zain432@example.com', 'Zain Ahmad', '+60187776655', '76, Jalan Bangsar, Kuala Lumpur', '59100', 'Malaysia', 'Kuala Lumpur', '2024-12-30 11:59:08', '2024-12-30 11:59:08'),
+(9, 'nadia654', 'nadia654@example.com', 'Nadia Aziz', '+60112233445', '29, Jalan Damansara, Kuala Lumpur', '60000', 'Malaysia', 'Kuala Lumpur', '2024-12-30 11:59:08', '2024-12-30 11:59:08'),
+(10, 'siti456s2', 'Hafeez@gmail.com', 'Hafeez', '01010012313', 'Lot 883477', '123445', 'Malaysia', 'Kuala Lumpur', '2024-12-30 12:37:58', '2024-12-30 12:37:58');
 
 -- --------------------------------------------------------
 
@@ -92,7 +84,8 @@ CREATE TABLE `feedback` (
   `id` int(11) NOT NULL,
   `customer_id` int(11) DEFAULT NULL,
   `feedback_text` text DEFAULT NULL,
-  `rating` int(11) DEFAULT NULL CHECK (`rating` >= 1 and `rating` <= 5)
+  `rating` int(11) DEFAULT NULL CHECK (`rating` >= 1 and `rating` <= 5),
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -104,26 +97,13 @@ CREATE TABLE `feedback` (
 CREATE TABLE `ingredients` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `quantity` varchar(100) DEFAULT NULL,
-  `unit` varchar(50) DEFAULT NULL,
-  `supplier` varchar(255) DEFAULT NULL
+  `quantity` decimal(10,2) NOT NULL,
+  `unit` varchar(50) NOT NULL,
+  `supplier` varchar(255) DEFAULT NULL,
+  `product_id` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `ingredients`
---
-
-INSERT INTO `ingredients` (`id`, `name`, `quantity`, `unit`, `supplier`) VALUES
-(1, 'Flour', '100', 'kg', 'ABC Supplies'),
-(2, 'Sugar', '50', 'kg', 'SweetCo'),
-(3, 'Eggs', '200', 'dozen', 'FarmFresh'),
-(4, 'Butter', '30', 'kg', 'DairyLand'),
-(5, 'Yeast', '10', 'kg', 'Bakers Best'),
-(6, 'Salt', '20', 'kg', 'SaltWorks'),
-(7, 'Milk', '100', 'liters', 'DairyCo'),
-(8, 'Chocolate Chips', '25', 'kg', 'ChocoLux'),
-(9, 'Vanilla Extract', '5', 'liters', 'FlavorKing'),
-(10, 'Baking Powder', '15', 'kg', 'ChemBake');
 
 -- --------------------------------------------------------
 
@@ -133,6 +113,7 @@ INSERT INTO `ingredients` (`id`, `name`, `quantity`, `unit`, `supplier`) VALUES
 
 CREATE TABLE `inventory` (
   `id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
   `item_name` varchar(100) NOT NULL,
   `stock` int(11) NOT NULL,
   `reorder_point` int(11) NOT NULL
@@ -142,17 +123,14 @@ CREATE TABLE `inventory` (
 -- Dumping data for table `inventory`
 --
 
-INSERT INTO `inventory` (`id`, `item_name`, `stock`, `reorder_point`) VALUES
-(1, 'Sourdough Bread', 100, 30),
-(2, 'French Baguette', 150, 50),
-(3, 'Sourdough', 6, 15),
-(5, 'Baguette', 15, 20),
-(6, 'Croissant', 0, 10),
-(7, 'Whole Wheat Bread', 25, 15),
-(8, 'Rye Bread', 5, 10),
-(9, 'Brioche', 12, 5),
-(16, 'Garlic Bread', 45, 20),
-(17, 'Whole Grain Bread', 30, 25);
+INSERT INTO `inventory` (`id`, `product_id`, `item_name`, `stock`, `reorder_point`) VALUES
+(1, 1, 'Sourdough Bread', 100, 30),
+(2, 2, 'French Baguette', 150, 50),
+(3, 3, 'Whole Grain Bread', 30, 25),
+(4, 4, 'Garlic Bread', 45, 20),
+(5, 5, 'Focaccia', 5, 10),
+(6, 6, 'Croissant', 0, 10),
+(7, 7, 'Rye Bread', 5, 10);
 
 -- --------------------------------------------------------
 
@@ -173,8 +151,10 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `customer_id`, `order_date`, `status`, `total_amount`) VALUES
-(2, NULL, '2025-01-06 13:38:59', 'pending', 5.99),
-(3, NULL, '2025-01-06 13:39:06', 'pending', 9.98);
+(6, 1, '2025-01-06 22:44:58', 'pending', 5.99),
+(7, 1, '2025-01-06 22:45:53', 'pending', 37.28),
+(8, 1, '2025-01-06 22:45:57', 'pending', 8.98),
+(9, 1, '2025-01-06 22:46:02', 'pending', 11.58);
 
 -- --------------------------------------------------------
 
@@ -184,7 +164,7 @@ INSERT INTO `orders` (`id`, `customer_id`, `order_date`, `status`, `total_amount
 
 CREATE TABLE `order_items` (
   `id` int(11) NOT NULL,
-  `order_id` int(11) DEFAULT NULL,
+  `order_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `item_name` varchar(100) NOT NULL,
   `quantity` int(11) NOT NULL,
@@ -196,9 +176,18 @@ CREATE TABLE `order_items` (
 --
 
 INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `item_name`, `quantity`, `price`) VALUES
-(4, 2, 3, '', 1, 5.99),
-(5, 3, 2, '', 1, 3.99),
-(6, 3, 3, '', 1, 5.99);
+(10, 6, 3, '', 1, 5.99),
+(11, 7, 1, '', 1, 4.99),
+(12, 7, 2, '', 1, 3.99),
+(13, 7, 3, '', 1, 5.99),
+(14, 7, 4, '', 2, 3.80),
+(15, 7, 5, '', 1, 4.75),
+(16, 7, 6, '', 2, 2.99),
+(17, 7, 7, '', 2, 1.99),
+(18, 8, 1, '', 1, 4.99),
+(19, 8, 2, '', 1, 3.99),
+(20, 9, 4, '', 2, 3.80),
+(21, 9, 7, '', 2, 1.99);
 
 -- --------------------------------------------------------
 
@@ -208,8 +197,7 @@ INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `item_name`, `quantit
 
 CREATE TABLE `payments` (
   `id` int(11) NOT NULL,
-  `order_id` int(11) DEFAULT NULL,
-  `transaction_id` varchar(100) DEFAULT NULL,
+  `order_id` int(11) NOT NULL,
   `payment_method` enum('cash','card','online') NOT NULL,
   `status` enum('pending','completed','failed') DEFAULT 'pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -218,9 +206,11 @@ CREATE TABLE `payments` (
 -- Dumping data for table `payments`
 --
 
-INSERT INTO `payments` (`id`, `order_id`, `transaction_id`, `payment_method`, `status`) VALUES
-(21, 2, NULL, 'cash', 'pending'),
-(22, 3, NULL, 'cash', 'pending');
+INSERT INTO `payments` (`id`, `order_id`, `payment_method`, `status`) VALUES
+(6, 6, 'cash', 'pending'),
+(7, 7, 'cash', 'pending'),
+(8, 8, 'cash', 'pending'),
+(9, 9, 'cash', 'pending');
 
 -- --------------------------------------------------------
 
@@ -270,23 +260,31 @@ CREATE TABLE `promotions` (
 --
 
 CREATE TABLE `sales_transactions` (
-  `id` int(11) NOT NULL,
+  `transaction_id` int(11) NOT NULL,
   `customer_id` int(11) DEFAULT NULL,
-  `product_id` int(11) DEFAULT NULL,
-  `payment_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
   `orders_id` int(11) NOT NULL,
   `amount` decimal(10,2) NOT NULL,
-  `date` date NOT NULL
+  `date` date NOT NULL DEFAULT curdate()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `sales_transactions`
 --
 
-INSERT INTO `sales_transactions` (`id`, `customer_id`, `product_id`, `payment_id`, `orders_id`, `amount`, `date`) VALUES
-(2, NULL, 3, 21, 2, 5.00, '2025-01-06'),
-(3, NULL, 2, 22, 3, 3.00, '2025-01-06'),
-(4, NULL, 3, 22, 3, 5.00, '2025-01-06');
+INSERT INTO `sales_transactions` (`transaction_id`, `customer_id`, `product_id`, `orders_id`, `amount`, `date`) VALUES
+(6, 1, 3, 6, 5.99, '2025-01-06'),
+(7, 1, 1, 7, 4.99, '2025-01-06'),
+(7, 1, 2, 7, 3.99, '2025-01-06'),
+(7, 1, 3, 7, 5.99, '2025-01-06'),
+(7, 1, 4, 7, 7.60, '2025-01-06'),
+(7, 1, 5, 7, 4.75, '2025-01-06'),
+(7, 1, 6, 7, 5.98, '2025-01-06'),
+(7, 1, 7, 7, 3.98, '2025-01-06'),
+(8, 1, 1, 8, 4.99, '2025-01-06'),
+(8, 1, 2, 8, 3.99, '2025-01-06'),
+(9, 1, 4, 9, 7.60, '2025-01-06'),
+(9, 1, 7, 9, 3.98, '2025-01-06');
 
 -- --------------------------------------------------------
 
@@ -320,13 +318,15 @@ INSERT INTO `users` (`id`, `name`, `role`, `email`, `password_hash`) VALUES
 --
 ALTER TABLE `cart`
   ADD PRIMARY KEY (`cart_id`),
+  ADD KEY `customer_id` (`customer_id`),
   ADD KEY `product_id` (`product_id`);
 
 --
 -- Indexes for table `customers`
 --
 ALTER TABLE `customers`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- Indexes for table `feedback`
@@ -339,13 +339,15 @@ ALTER TABLE `feedback`
 -- Indexes for table `ingredients`
 --
 ALTER TABLE `ingredients`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `product_id` (`product_id`);
 
 --
 -- Indexes for table `inventory`
 --
 ALTER TABLE `inventory`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `product_id` (`product_id`);
 
 --
 -- Indexes for table `orders`
@@ -359,14 +361,14 @@ ALTER TABLE `orders`
 --
 ALTER TABLE `order_items`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `order_id` (`order_id`);
+  ADD KEY `order_id` (`order_id`),
+  ADD KEY `product_id` (`product_id`);
 
 --
 -- Indexes for table `payments`
 --
 ALTER TABLE `payments`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `transaction_id` (`transaction_id`),
   ADD KEY `order_id` (`order_id`);
 
 --
@@ -385,7 +387,10 @@ ALTER TABLE `promotions`
 -- Indexes for table `sales_transactions`
 --
 ALTER TABLE `sales_transactions`
-  ADD PRIMARY KEY (`id`);
+  ADD KEY `customer_id` (`customer_id`),
+  ADD KEY `product_id` (`product_id`),
+  ADD KEY `orders_id` (`orders_id`),
+  ADD KEY `transaction_id` (`transaction_id`);
 
 --
 -- Indexes for table `users`
@@ -402,13 +407,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `feedback`
@@ -420,31 +425,31 @@ ALTER TABLE `feedback`
 -- AUTO_INCREMENT for table `ingredients`
 --
 ALTER TABLE `ingredients`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `inventory`
 --
 ALTER TABLE `inventory`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -457,12 +462,6 @@ ALTER TABLE `products`
 --
 ALTER TABLE `promotions`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `sales_transactions`
---
-ALTER TABLE `sales_transactions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -478,13 +477,26 @@ ALTER TABLE `users`
 -- Constraints for table `cart`
 --
 ALTER TABLE `cart`
-  ADD CONSTRAINT `cart_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`);
+  ADD CONSTRAINT `cart_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `cart_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `feedback`
 --
 ALTER TABLE `feedback`
   ADD CONSTRAINT `feedback_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `ingredients`
+--
+ALTER TABLE `ingredients`
+  ADD CONSTRAINT `ingredients_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `inventory`
+--
+ALTER TABLE `inventory`
+  ADD CONSTRAINT `inventory_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `orders`
@@ -496,7 +508,8 @@ ALTER TABLE `orders`
 -- Constraints for table `order_items`
 --
 ALTER TABLE `order_items`
-  ADD CONSTRAINT `order_items_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `order_items_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `order_items_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `payments`
@@ -508,7 +521,10 @@ ALTER TABLE `payments`
 -- Constraints for table `sales_transactions`
 --
 ALTER TABLE `sales_transactions`
-  ADD CONSTRAINT `sales_transactions_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON DELETE SET NULL;
+  ADD CONSTRAINT `sales_transactions_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `sales_transactions_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `sales_transactions_ibfk_3` FOREIGN KEY (`orders_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `sales_transactions_ibfk_4` FOREIGN KEY (`transaction_id`) REFERENCES `payments` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
