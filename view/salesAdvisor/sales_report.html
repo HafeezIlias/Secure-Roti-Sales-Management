@@ -29,22 +29,13 @@
         <div class="section-card mt-4">
             <h5>Filter Sales Data</h5>
             <form id="sales-filter-form" class="row g-3">
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <label for="start-date" class="form-label">Start Date</label>
                     <input type="date" id="start-date" class="form-control">
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <label for="end-date" class="form-label">End Date</label>
                     <input type="date" id="end-date" class="form-control">
-                </div>
-                <div class="col-md-4">
-                    <label for="category" class="form-label">Category</label>
-                    <select id="category" class="form-select">
-                        <option value="">All Categories</option>
-                        <option value="electronics">Electronics</option>
-                        <option value="clothing">Clothing</option>
-                        <option value="groceries">Groceries</option>
-                    </select>
                 </div>
                 <div class="col-12">
                     <button type="button" onclick="applySalesFilter()" class="btn btn-primary">Apply Filters</button>
@@ -98,8 +89,10 @@
                 <tr>
                     <th>ID</th>
                     <th>Product</th>
+                    <th>Customer ID</th>
                     <th>Amount</th>
                     <th>Date</th>
+                    <th>Payment Method</th>
                 </tr>
             </thead>
             <tbody id="sales-table">
@@ -111,6 +104,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="/scripts/sales_report.js"></script>
+    <script src="/scripts/salesAdvisor/sales_report.js"></script>
 </body>
 </html>
