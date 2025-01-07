@@ -127,3 +127,7 @@ h2 {
     color: var(--secondary-color);
     margin-bottom: 20px;
 }
+
+#payment-method {
+    margin-top: 10px;
+}
