@@ -40,10 +40,21 @@
                     <input type="number" id="product-price" class="form-control" placeholder="Enter product price" required>
                 </div>
                 <div class="mb-3">
-                    <label for="product-image" class="form-label">Product Image</label>
-                    <input type="file" id="product-image" class="form-control" accept="image/*" required>
+                    <label for="product-stock" class="form-label">Stock Quantity</label>
+                    <input type="number" id="product-stock" class="form-control" placeholder="Enter stock quantity" required>
                 </div>
                 <div class="mb-3">
+                    <label for="product-reorder" class="form-label">Reorder Point</label>
+                    <input type="number" id="product-reorder" class="form-control" placeholder="Enter reorder point" required>
+                </div>
+                <div class="mb-3">
+                    <label for="product-image" class="form-label">Product Image</label>
+                    <input type="file" id="product-image" class="form-control" accept=".jpg, .png" required>
+                    <small class="text-muted">Allowed formats: JPG, PNG | Max file size: 1MB</small>
+                    <div id="error-message"></div>
+                    <div id="image-preview"></div>
+                </div>
+                <!-- <div class="mb-3">
                     <label for="product-category" class="form-label">Category</label>
                     <select id="product-category" class="form-select" required>
                         <option value="" disabled selected>Select Category</option>
@@ -51,12 +62,12 @@
                         <option value="Beverages">Beverages</option>
                         <option value="Snacks">Snacks</option>
                     </select>
-                </div>
+                </div> -->
                 <button type="button" class="btn btn-success w-100" onclick="addProduct()">Add Product</button>
             </form>
         </div>
     </div>
 
-    <script src="/scripts/add_product.js"></script>
+    <script src="/scripts/clerk/add_product.js"></script>
 </body>
 </html>
