@@ -50,22 +50,25 @@ if (!is_numeric($price) || $price <= 0 || !is_numeric($stock) || $stock < 0 || !
 
 // Handle Image Upload
 $imagePath = null;
+
 if ($image && $image['error'] === UPLOAD_ERR_OK) {
     // Define the upload directory (absolute path)
-    $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/assets/products/';
+    $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/SecureRotiSalesManagement/assets/product/';
     
     // Ensure the directory exists
-    if (!is_dir($uploadDir)) {
-        mkdir($uploadDir, 0777, true);
+    if (!is_dir($uploadDir) && !mkdir($uploadDir, 0777, true)) {
+        http_response_code(500);
+        echo json_encode(['error' => 'Failed to create upload directory.']);
+        exit();
     }
-    
+
     // Validate Image Extension
     $imageExtension = strtolower(pathinfo($image['name'], PATHINFO_EXTENSION));
-    $allowedExtensions = ['jpg', 'png'];
+    $allowedExtensions = ['jpg', 'jpeg', 'png'];
 
     if (!in_array($imageExtension, $allowedExtensions)) {
         http_response_code(400);
-        echo json_encode(['error' => 'Invalid image format. Allowed formats: jpg, png']);
+        echo json_encode(['error' => 'Invalid image format. Allowed formats: jpg, jpeg, png']);
         exit();
     }
 
@@ -76,12 +79,19 @@ if ($image && $image['error'] === UPLOAD_ERR_OK) {
         exit();
     }
 
-    // Sanitize Product Name for Filename
-    $sanitizedProductName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $name);
-    $imageFileName = $sanitizedProductName . '_' . time() . '.' . $imageExtension; // Add timestamp for uniqueness
+    // Sanitize Product Name for Filename (only the name, not the extension)
+    $sanitizedProductName = preg_replace('/[^A-Za-z0-9_\-]/', '_', pathinfo($name, PATHINFO_FILENAME));
+    $imageFileName = $sanitizedProductName . '.' . $imageExtension;
 
     // Absolute path for moving the uploaded file
     $absoluteImagePath = $uploadDir . $imageFileName;
+
+    // Check if the file already exists
+    if (file_exists($absoluteImagePath)) {
+        http_response_code(400);
+        echo json_encode(['error' => 'An image with this product name already exists.']);
+        exit();
+    }
 
     if (!move_uploaded_file($image['tmp_name'], $absoluteImagePath)) {
         http_response_code(500);
@@ -90,9 +100,8 @@ if ($image && $image['error'] === UPLOAD_ERR_OK) {
     }
 
     // Save relative path for the database
-    $imagePath = 'assets/product/' . $imageFileName;
+    $imagePath = '/assets/product/' . $imageFileName;
 }
-
 
 // Start Transaction for Atomic Operations
 $conn->begin_transaction();
